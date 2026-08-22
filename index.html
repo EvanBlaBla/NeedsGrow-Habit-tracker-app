@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Kasboek — Habit Tracker</title>
+<meta name="theme-color" content="#1B4332">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kasboek">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EFEAE2;
+    --paper-raised: #FBF8F2;
+    --ink: #1F2A24;
+    --ink-soft: #4B564E;
+    --forest: #1B4332;
+    --forest-light: #2D6A4F;
+    --gold: #B98A2E;
+    --gold-light: #E4C27A;
+    --gold-bg: #F7E8C4;
+    --red: #A3453A;
+    --red-bg: #F5E4E1;
+    --line: #C9BFA9;
+    --sage: #D7E1D3;
+    --sage-line: #9FB39A;
+    --sub-bg: #F3EFE4;
+    --shadow: 0 2px 10px rgba(31,42,36,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--paper);
+    background-image: radial-gradient(rgba(31,42,36,0.035) 1px, transparent 1px);
+    background-size: 14px 14px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; margin:0; }
+  .num{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ===== Top bar ===== */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--forest); color: var(--paper-raised);
+    padding: 14px 28px; padding-top: calc(14px + env(safe-area-inset-top));
+    box-shadow: var(--shadow);
+    position: sticky; top:0; z-index: 20; flex-wrap: wrap; gap: 12px;
+  }
+  .topbar .left{ display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+  .brand{
+    font-family:'Fraunces', serif; font-weight:700; font-size: 1.25rem;
+    margin-right: 18px; letter-spacing: 0.3px; display:flex; align-items:center; gap:8px;
+  }
+  .brand .mark{
+    width:26px;height:26px;border-radius:50%; background: var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    color: var(--forest); font-weight:700; font-size:0.85rem; font-family:'IBM Plex Mono',monospace;
+  }
+  button{ font-family:'Inter', sans-serif; cursor:pointer; }
+  .btn{
+    border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.06);
+    color: var(--paper-raised); padding: 9px 16px; border-radius: 8px;
+    font-size: 0.88rem; font-weight: 600; transition: background 0.15s, transform 0.1s;
+  }
+  .btn:hover{ background: rgba(255,255,255,0.16); }
+  .btn:active{ transform: scale(0.97); }
+  .btn-gold{ background: var(--gold); border-color: var(--gold); color: var(--forest); }
+  .btn-gold:hover{ background: var(--gold-light); }
+
+  .money-plate{
+    display:flex; align-items:center; gap:10px; background: var(--forest-light);
+    border: 1px solid rgba(255,255,255,0.18); padding: 7px 16px 7px 12px; border-radius: 999px;
+  }
+  .money-plate .coin{
+    width: 28px; height:28px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 70%);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--forest); font-weight:700; font-family:'IBM Plex Mono',monospace; font-size:0.9rem;
+    box-shadow: inset 0 0 0 2px rgba(31,42,36,0.15);
+  }
+  #money-total{ font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:1.15rem; letter-spacing:0.3px; color: var(--gold-light); }
+  .money-plate.pop{ animation: pop 0.45s ease; }
+  @keyframes pop{ 0%{transform:scale(1);} 30%{transform:scale(1.12);} 55%{transform:scale(0.98);} 100%{transform:scale(1);} }
+
+  /* ===== Layout ===== */
+  .wrap{ max-width: 980px; margin: 34px auto; padding: 0 20px; }
+  .section-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
+  .section-head h2{ font-size:1.4rem; color: var(--forest); }
+  .section-head .sub{ color: var(--ink-soft); font-size:0.85rem; }
+  .ledger-card{
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow); overflow: visible; margin-bottom: 42px;
+  }
+
+  /* ===== Habits table ===== */
+  .habit-table{ width:100%; border-collapse: collapse;}
+  .habit-table thead th{
+    text-align:left; font-family:'IBM Plex Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft);
+    padding: 12px 10px; border-bottom: 1px dashed var(--line);
+  }
+  .habit-table thead th.day-col{ text-align:center; width: 46px; }
+  .habit-table thead th.first{ padding-left:20px; }
+  .habit-table thead th.day-col.today{ background: var(--gold-bg); color: var(--forest); font-weight:700; border-radius:6px 6px 0 0; }
+  .habit-row{ border-bottom: 1px dashed var(--line);}
+  .habit-row td{ padding: 12px 10px; vertical-align: middle;}
+  .habit-row:last-child td{ border-bottom:none; }
+  .habit-row.challenge-habit{ background: var(--sage); }
+  .habit-row.challenge-habit td{ border-bottom-color: var(--sage-line); }
+  .habit-row.sub-habit-row{ background: var(--sub-bg); }
+
+  .habit-row.sub-habit-row .habit-name-cell{ padding-left: 44px !important; }
+  .habit-row.sub-habit-row .habit-name{ font-weight:500; font-size:0.9rem; color: var(--ink-soft); }
+  td.day-col.today{ background: rgba(185,138,46,0.12); }
+  .habit-name-cell{ padding-left:20px !important; position:relative; display:flex; align-items:center; gap:2px; }
+  .expand-arrow{
+    background:none; border:none; color: var(--ink-soft); font-size:0.7rem; width:16px;
+    padding:0; margin-right:4px; flex-shrink:0;
+  }
+  .expand-arrow:hover{ color: var(--forest); }
+  .expand-spacer{ display:inline-block; width:20px; flex-shrink:0; }
+  .habit-name{ font-weight:600; cursor:pointer; border-bottom: 1px dotted transparent; position:relative; }
+  .habit-name:hover{ color: var(--forest); border-bottom-color: var(--forest); }
+  .chip{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:0.62rem;
+    background: var(--sage-line); color:#fff; padding:1px 6px; border-radius:5px;
+    margin-left:8px; vertical-align:middle; letter-spacing:0.03em;
+  }
+  .chip-sub{ background: var(--ink-soft); }
+  td.day-col{ text-align:center; }
+  .day-off{ color:#cbc2ac; font-size:0.9rem; }
+
+  input.stamp{
+    appearance:none; -webkit-appearance:none; width:26px; height:26px; border-radius:50%;
+    border: 2px solid var(--line); background: var(--paper); cursor:pointer; position:relative;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  input.stamp:hover{ border-color: var(--forest-light); }
+  input.stamp:checked{ border-color: var(--forest); background: var(--forest); }
+  input.stamp:checked::after{
+    content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color: var(--gold-light); font-size: 14px; font-weight:700; transform: rotate(-8deg);
+  }
+
+  /* popovers */
+  .popover{
+    position:absolute; top: calc(100% + 6px); left:-20px; z-index: 1000;
+    background: var(--ink); color: var(--paper-raised); border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25); font-size: 0.8rem;
+  }
+  .del-pop{ padding: 10px 12px; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  .del-pop button{ border:none; border-radius:6px; padding:5px 10px; font-size:0.78rem; font-weight:600; }
+  .del-pop .yes{ background: var(--red); color:#fff; }
+  .del-pop .no{ background: rgba(255,255,255,0.15); color:#fff; }
+  .action-menu{ display:flex; flex-direction:column; min-width: 190px; overflow:hidden; }
+  .action-menu button{
+    background:none; border:none; color: var(--paper-raised); text-align:left;
+    padding: 9px 14px; font-size:0.82rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .action-menu button:last-child{ border-bottom:none; }
+  .action-menu button:hover{ background: rgba(255,255,255,0.1); }
+  .action-menu button.danger:hover{ background: var(--red); }
+  .plan-pop{ padding: 14px; width: 260px; }
+  .plan-pop-title{ font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase; color: var(--gold-light); letter-spacing:0.05em; margin-bottom:8px; }
+  .plan-pop-body{ font-size:0.85rem; line-height:1.55; margin-bottom:10px; white-space:pre-wrap; }
+  .plan-pop-empty{ color: rgba(251,248,242,0.6); font-style:italic; }
+  .plan-pop-close{ background: rgba(255,255,255,0.15); border:none; color:#fff; padding:5px 12px; border-radius:6px; font-size:0.75rem; font-weight:600; }
+
+  .tooltip{
+    position:fixed; z-index:100; pointer-events:none; background: var(--ink); color: var(--paper-raised);
+    padding:10px 12px; border-radius:8px; font-size:0.78rem; line-height:1.5;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25); max-width: 230px; display:none;
+  }
+  .tooltip b{ color: var(--gold-light); }
+
+  .empty-state{ padding: 34px 20px; text-align:center; color: var(--ink-soft); font-size:0.92rem; }
+  .empty-state .icon{ font-size:1.6rem; display:block; margin-bottom:8px; }
+
+  /* ===== Challenges ===== */
+  .challenge-row{ display:flex; align-items:center; gap:18px; padding: 14px 20px; border-bottom: 1px dashed var(--line); position: relative; }
+  .challenge-row:last-child{ border-bottom:none; }
+  .challenge-field{ display:flex; flex-direction:column; gap:2px; }
+  .challenge-field .lbl{ font-family:'IBM Plex Mono',monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.06em; color: var(--ink-soft); }
+  .challenge-field .val{ font-weight:600; font-size:0.92rem; }
+  .cf-start{ width:100px; } .cf-goal{ flex:1; min-width: 120px; } .cf-end{ width:100px; } .cf-reward{ width:90px; text-align:right; }
+  .cf-reward .val{ font-family:'IBM Plex Mono',monospace; color: var(--gold); }
+  .badge{ font-family:'IBM Plex Mono',monospace; font-size:0.62rem; text-transform:uppercase; padding:2px 7px; border-radius:5px; letter-spacing:0.04em; width:fit-content; }
+  .badge.expired{ background: var(--red-bg); color: var(--red); }
+  .badge.done{ background: var(--sage); color: var(--forest); }
+  .challenge-row.completed{ opacity:0.6; }
+  .challenge-row.completed .cf-goal .val{ text-decoration: line-through; }
+  .challenge-actions{ display:flex; align-items:center; gap:14px; margin-left:auto; }
+  .trash-btn{ background:none; border:none; color: var(--ink-soft); font-size:1rem; opacity:0; transition: opacity 0.15s, color 0.15s; padding:4px; }
+  .challenge-row:hover .trash-btn{ opacity:1; }
+  .trash-btn:hover{ color: var(--red); }
+
+  /* ===== Modal ===== */
+  .overlay{ position: fixed; inset:0; background: rgba(31,42,36,0.45); display:none; align-items:center; justify-content:center; z-index: 200; padding: 20px; }
+  .overlay.open{ display:flex; }
+  .modal{ background: var(--paper-raised); border-radius: 14px; width: 100%; max-width: 440px; padding: 26px 26px 22px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-height: 88vh; overflow-y:auto; }
+  .modal h3{ color: var(--forest); font-size:1.3rem; margin-bottom: 4px; }
+  .modal .modal-sub{ color: var(--ink-soft); font-size:0.82rem; margin-bottom: 18px; }
+  .field{ margin-bottom: 16px; }
+  .field label{ display:block; font-size:0.78rem; font-weight:600; color: var(--ink-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing:0.04em; font-family:'IBM Plex Mono',monospace; }
+  .field input[type=text], .field input[type=number], .field input[type=date], .field textarea{
+    width:100%; padding: 9px 11px; border-radius:7px; border: 1px solid var(--line);
+    background: var(--paper); font-size:0.95rem; font-family:'Inter',sans-serif; color: var(--ink);
+  }
+  .field textarea{ resize: vertical; font-size:0.88rem; }
+  .field input:focus, .field textarea:focus{ outline:2px solid var(--forest-light); outline-offset:1px; }
+  .days-picker{ display:flex; gap:6px; flex-wrap:wrap; }
+  .day-toggle{
+    border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); padding: 7px 0;
+    width:38px; border-radius:7px; font-size:0.78rem; font-weight:600; font-family:'IBM Plex Mono',monospace;
+  }
+  .day-toggle.active{ background: var(--forest); border-color: var(--forest); color:#fff; }
+  .day-toggle.sub.active{ background: var(--sage-line); border-color: var(--sage-line); }
+  .day-toggle.disabled{ opacity:0.3; cursor:not-allowed; }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+  .btn-plain{ background:none; border:1px solid var(--line); color: var(--ink-soft); padding: 9px 16px; border-radius:8px; font-size:0.86rem; font-weight:600; }
+  .btn-plain:hover{ background: var(--paper); }
+  .toggle-row{ display:flex; align-items:center; gap:8px; margin: 4px 0 16px; }
+  .toggle-row input{ width:16px; height:16px; }
+  .toggle-row label{ font-size:0.85rem; color: var(--ink); font-weight:600; margin:0; text-transform:none; letter-spacing:0; font-family:'Inter',sans-serif;}
+  fieldset.sub-fieldset{ border: 1px dashed var(--sage-line); border-radius:9px; padding: 14px; margin: 0 0 16px; background: var(--sage); display:none; }
+  fieldset.sub-fieldset.open{ display:block; }
+  fieldset.sub-fieldset legend{ font-family:'IBM Plex Mono',monospace; font-size:0.68rem; text-transform:uppercase; color: var(--forest); padding: 0 6px; letter-spacing:0.05em; }
+  fieldset.sub-fieldset .hint{ font-size:0.75rem; color: var(--ink-soft); margin: -4px 0 12px; }
+  .error-msg{ color: var(--red); font-size:0.8rem; margin-top:-8px; margin-bottom:14px; display:none; }
+  .error-msg.show{ display:block; }
+
+  .subhabit-block{ background: var(--paper-raised); border: 1px solid var(--sage-line); border-radius:8px; padding: 10px 12px; margin-bottom: 10px; }
+  .subhabit-block-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .subhabit-remove{ background:none; border:none; color: var(--red); font-size:0.85rem; padding:2px 6px; }
+  .mini-field{ margin-bottom: 8px; }
+  .mini-field:last-child{ margin-bottom:0; }
+  .mini-label{ display:block; font-size:0.68rem; font-weight:700; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px; font-family:'IBM Plex Mono',monospace; }
+  .subhabit-block input[type=text], .subhabit-block input[type=number]{
+    width:100%; padding: 7px 9px; border-radius:6px; border: 1px solid var(--line); background: var(--paper); font-size:0.88rem;
+  }
+
+  .step-row{ margin-bottom: 10px; }
+  .step-row-label{ display:block; font-size:0.72rem; font-weight:700; color: var(--forest); margin-bottom:4px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:0.03em; }
+
+  @media (max-width: 640px){
+    .topbar{ padding:12px 16px; padding-top: calc(12px + env(safe-area-inset-top)); }
+    .brand{ font-size:1.1rem; margin-right:0; }
+    .btn{ padding:10px 14px; font-size:0.85rem; }
+    .wrap{ margin: 20px auto; padding: 0 12px; }
+    .section-head h2{ font-size:1.2rem; }
+    .ledger-card{ overflow-x:auto; border-radius:10px; -webkit-overflow-scrolling: touch; }
+    .habit-table{ min-width: 560px; }
+    .habit-table thead th{ padding: 10px 8px; }
+    .habit-row td{ padding: 14px 8px; }
+    input.stamp{ width:30px; height:30px; }
+    .habit-table thead th.day-col{ width: 50px; }
+    .challenge-row{ flex-wrap:wrap; row-gap:10px; padding: 14px 16px; }
+    .challenge-actions{ margin-left:0; width:100%; justify-content:space-between; }
+    .modal{ padding: 22px 18px 18px; border-radius:16px; max-height: calc(88vh - env(safe-area-inset-bottom)); }
+    .money-plate{ padding: 6px 12px 6px 10px; }
+    #money-total{ font-size:1.05rem; }
+  }
+
+  @media (max-width: 400px){
+    .habit-table{ min-width: 520px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <div class="brand"><span class="mark">€</span>Kasboek</div>
+    <button class="btn" id="btn-new-habit">+ Nieuwe habit</button>
+    <button class="btn" id="btn-new-challenge">+ Nieuwe challenge</button>
+  </div>
+  <div class="money-plate" id="money-plate">
+    <span class="coin">€</span>
+    <span id="money-total" class="num">€ 0,00</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section-head">
+    <h2>Habits</h2>
+    <span class="sub">wekelijks — reset elke maandag</span>
+  </div>
+  <div class="ledger-card">
+    <table class="habit-table" id="habit-table">
+      <thead>
+        <tr>
+          <th class="first">Habit</th>
+          <th class="day-col">Ma</th><th class="day-col">Di</th><th class="day-col">Wo</th>
+          <th class="day-col">Do</th><th class="day-col">Vr</th><th class="day-col">Za</th><th class="day-col">Zo</th>
+        </tr>
+      </thead>
+      <tbody id="habit-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="habit-empty" style="display:none;">
+      <span class="icon">📓</span>
+      Nog geen habits. Klik op “+ Nieuwe habit” om te beginnen.
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Challenges</h2>
+    <span class="sub">eenmalige doelen met een deadline</span>
+  </div>
+  <div class="ledger-card" id="challenge-list">
+    <div class="empty-state" id="challenge-empty" style="display:none;">
+      <span class="icon">🎯</span>
+      Nog geen challenges. Klik op “+ Nieuwe challenge” om er een te starten.
+    </div>
+  </div>
+
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ===== Habit modal ===== -->
+<div class="overlay" id="overlay-habit">
+  <div class="modal">
+    <h3>Nieuwe habit</h3>
+    <div class="modal-sub">Stel een wekelijkse gewoonte in en wat die je oplevert.</div>
+    <form id="form-habit">
+      <div class="field">
+        <label for="habit-name">Naam</label>
+        <input type="text" id="habit-name" required maxlength="60" placeholder="Bijv. Ochtendroutine">
+      </div>
+      <div class="field">
+        <label>Dagen</label>
+        <div class="days-picker" id="habit-days-picker"></div>
+      </div>
+      <div class="field">
+        <label for="habit-reward">Geld per volledige week (€)</label>
+        <input type="number" id="habit-reward" min="0" step="0.01" value="1.00" required>
+      </div>
+      <div class="toggle-row">
+        <input type="checkbox" id="habit-add-subs">
+        <label for="habit-add-subs">Deelhabits toevoegen (bijv. voor een routine)</label>
+      </div>
+      <fieldset class="sub-fieldset" id="subhabit-fieldset">
+        <legend>Deelhabits</legend>
+        <p class="hint">Alleen dagen die je hierboven bij de habit hebt gekozen zijn beschikbaar. De hoofdhabit wordt automatisch aangevinkt zodra alle deelhabits van die dag zijn afgevinkt.</p>
+        <div id="subhabit-blocks"></div>
+        <button type="button" class="btn-plain" id="btn-add-subhabit">+ Voeg deelhabit toe</button>
+      </fieldset>
+      <div class="error-msg" id="habit-error">Vul een naam in en kies minstens één dag.</div>
+      <div class="modal-actions">
+        <button type="button" class="btn-plain" data-close="overlay-habit">Annuleren</button>
+        <button type="submit" class="btn btn-gold">Toevoegen</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Edit habit modal ===== -->
+<div class="overlay" id="overlay-edit">
+  <div class="modal">
+    <h3>Habit bewerken</h3>
+    <div class="modal-sub" id="edit-modal-sub"></div>
+    <form id="form-edit">
+      <div class="field">
+        <label for="edit-name">Naam</label>
+        <input type="text" id="edit-name" required maxlength="60">
+      </div>
+      <div class="field">
+        <label>Dagen</label>
+        <div class="days-picker" id="edit-days-picker"></div>
+      </div>
+      <div class="field" id="edit-reward-field">
+        <label for="edit-reward">Geld per volledige week (€)</label>
+        <input type="number" id="edit-reward" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label>Stappenplan per dag (optioneel)</label>
+        <div id="edit-stepplans"></div>
+      </div>
+      <div class="error-msg" id="edit-error">Vul een naam in en kies minstens één dag.</div>
+      <div class="modal-actions">
+        <button type="button" class="btn-plain" data-close="overlay-edit">Annuleren</button>
+        <button type="submit" class="btn btn-gold">Opslaan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Challenge modal ===== -->
+<div class="overlay" id="overlay-challenge">
+  <div class="modal">
+    <h3>Nieuwe challenge</h3>
+    <div class="modal-sub">Zet een doel met een deadline en beloning.</div>
+    <form id="form-challenge">
+      <div class="field">
+        <label for="challenge-start">Startdatum</label>
+        <input type="date" id="challenge-start" required>
+      </div>
+      <div class="field">
+        <label for="challenge-goal">Doel</label>
+        <input type="text" id="challenge-goal" required maxlength="80" placeholder="Bijv. 10 km hardlopen zonder stoppen">
+      </div>
+      <div class="field">
+        <label for="challenge-days">Aantal dagen</label>
+        <input type="number" id="challenge-days" min="1" step="1" value="30" required>
+      </div>
+      <div class="field">
+        <label for="challenge-reward">Geld bij voltooien (€)</label>
+        <input type="number" id="challenge-reward" min="0" step="0.01" value="5.00" required>
+      </div>
+      <div class="toggle-row">
+        <input type="checkbox" id="challenge-add-habit">
+        <label for="challenge-add-habit">Challenge-habit toevoegen</label>
+      </div>
+      <fieldset class="sub-fieldset" id="challenge-habit-fieldset">
+        <legend>Challenge-habit</legend>
+        <div class="field">
+          <label for="ch-habit-name">Naam</label>
+          <input type="text" id="ch-habit-name" maxlength="60" placeholder="Bijv. dagelijks 5 km lopen">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Dagen</label>
+          <div class="days-picker" id="ch-habit-days-picker"></div>
+        </div>
+      </fieldset>
+      <div class="error-msg" id="challenge-error">Controleer je invoer.</div>
+      <div class="modal-actions">
+        <button type="button" class="btn-plain" data-close="overlay-challenge">Annuleren</button>
+        <button type="submit" class="btn btn-gold">Toevoegen</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  const DAY_LABELS = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+  const FULL_DAY_NAMES = ['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];
+  const STORAGE_KEY = 'kasboek-state';
+
+  let state = { money: 0, habits: [], challenges: [], lastResetWeek: null };
+  const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+  const findHabit = (id) => state.habits.find(x => x.id === id);
+
+  // ---------- date / week helpers ----------
+  function isoDate(d){ const off = d.getTimezoneOffset(); const local = new Date(d.getTime() - off*60000); return local.toISOString().slice(0,10); }
+  function fmtDate(iso){ const [y,m,d] = iso.split('-'); return `${d}-${m}-${y}`; }
+  function mondayIndex(d){ return (d.getDay() + 6) % 7; }
+  function getWeekKey(d){
+    const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = dt.getUTCDay() || 7;
+    dt.setUTCDate(dt.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+    const weekNo = Math.ceil((((dt - yearStart) / 86400000) + 1)/7);
+    return dt.getUTCFullYear() + '-W' + String(weekNo).padStart(2,'0');
+  }
+  function addDays(iso, n){ const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return isoDate(d); }
+  function fmtMoney(v){ return (v).toLocaleString('nl-NL', {style:'currency', currency:'EUR'}); }
+  function escapeHtml(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // ---------- storage ----------
+  // Uses Claude's window.storage when this file runs as a Claude artifact.
+  // Falls back to plain localStorage when opened as a standalone .html file
+  // in a regular browser (where window.storage doesn't exist).
+  const hasClaudeStorage = (typeof window !== 'undefined' && !!window.storage && typeof window.storage.get === 'function');
+  const storageBackend = {
+    async get(key){
+      if(hasClaudeStorage){
+        try{ return await window.storage.get(key, false); }
+        catch(e){ return null; }
+      }
+      const raw = localStorage.getItem(key);
+      return raw ? { key, value: raw, shared: false } : null;
+    },
+    async set(key, value){
+      if(hasClaudeStorage){
+        try{ return await window.storage.set(key, value, false); }
+        catch(e){ console.error('Claude-opslag mislukt, val terug op localStorage', e); }
+      }
+      try{ localStorage.setItem(key, value); return { key, value, shared: false }; }
+      catch(e){ console.error('localStorage opslaan mislukt', e); return null; }
+    }
+  };
+
+  async function loadState(){
+    try{
+      const res = await storageBackend.get(STORAGE_KEY);
+      if(res && res.value){ state = Object.assign(state, JSON.parse(res.value)); }
+    }catch(e){ console.error('Laden mislukt', e); }
+    if(!state.lastResetWeek){ state.lastResetWeek = getWeekKey(new Date()); }
+    state.habits.forEach(h => { if(h.subIds === undefined) h.subIds = []; if(h.parentId === undefined) h.parentId = null; if(h.stepPlans === undefined) h.stepPlans = {}; if(h.collapsed === undefined) h.collapsed = false; });
+  }
+  let saveTimer = null;
+  function saveState(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      const ok = await storageBackend.set(STORAGE_KEY, JSON.stringify(state));
+      if(!ok) console.error('Opslaan is volledig mislukt — wijzigingen gaan mogelijk verloren bij herladen.');
+    }, 150);
+  }
+
+  // ---------- weekly rollover ----------
+  function processWeekRollover(){
+    const currentWeek = getWeekKey(new Date());
+    if(state.lastResetWeek === currentWeek) return;
+    let totalAwarded = 0;
+    state.habits.forEach(h => {
+      if(h.isChallengeHabit){ h.checks = {}; return; }
+      const scheduled = h.days.length;
+      const checkedCount = h.days.filter(d => h.checks && h.checks[d]).length;
+      let awarded = 0;
+      if(h.parentId){
+        if(scheduled > 0 && checkedCount === scheduled) awarded = h.reward;
+      } else {
+        const pct = scheduled ? checkedCount/scheduled : 0;
+        if(scheduled > 0 && checkedCount === scheduled) awarded = h.reward;
+        else if(pct >= 0.8) awarded = Math.round(h.reward*0.4*100)/100;
+      }
+      h.totalScheduled = (h.totalScheduled||0) + scheduled;
+      h.totalChecked = (h.totalChecked||0) + checkedCount;
+      h.totalEarned = (h.totalEarned||0) + awarded;
+      totalAwarded += awarded;
+      h.checks = {};
+    });
+    if(totalAwarded > 0){ state.money = Math.round((state.money + totalAwarded)*100)/100; }
+    state.lastResetWeek = currentWeek;
+    saveState();
+  }
+
+  // ---------- shared elements ----------
+  const habitTbody = document.getElementById('habit-tbody');
+  const habitEmpty = document.getElementById('habit-empty');
+  const challengeList = document.getElementById('challenge-list');
+  const challengeEmpty = document.getElementById('challenge-empty');
+  const moneyTotalEl = document.getElementById('money-total');
+  const moneyPlate = document.getElementById('money-plate');
+  const tooltip = document.getElementById('tooltip');
+
+  function renderMoney(animate){
+    moneyTotalEl.textContent = fmtMoney(state.money);
+    if(animate){ moneyPlate.classList.remove('pop'); void moneyPlate.offsetWidth; moneyPlate.classList.add('pop'); }
+  }
+  function closeAllPopovers(){ document.querySelectorAll('.popover').forEach(el => el.remove()); }
+  document.addEventListener('click', () => closeAllPopovers());
+
+  function highlightTodayHeader(){
+    const todayIdx = mondayIndex(new Date());
+    document.querySelectorAll('#habit-table thead th.day-col').forEach((th,idx) => th.classList.toggle('today', idx===todayIdx));
+  }
+
+  // ---------- habits rendering ----------
+  function renderHabits(){
+    habitTbody.innerHTML = '';
+    const topLevel = state.habits.filter(h => !h.parentId);
+    habitEmpty.style.display = topLevel.length ? 'none' : 'block';
+    const todayIdx = mondayIndex(new Date());
+    topLevel.forEach(h => {
+      habitTbody.appendChild(buildHabitRow(h, todayIdx, false));
+      if(h.subIds && h.subIds.length && !h.collapsed){
+        h.subIds.forEach(subId => {
+          const sub = findHabit(subId);
+          if(sub) habitTbody.appendChild(buildHabitRow(sub, todayIdx, true));
+        });
+      }
+    });
+    highlightTodayHeader();
+  }
+
+  function buildHabitRow(h, todayIdx, isSub){
+    const tr = document.createElement('tr');
+    tr.className = 'habit-row' + (h.isChallengeHabit ? ' challenge-habit' : '') + (isSub ? ' sub-habit-row' : '');
+    tr.dataset.id = h.id;
+
+    const nameTd = document.createElement('td');
+    nameTd.className = 'habit-name-cell';
+
+    if(!isSub && h.subIds && h.subIds.length){
+      const arrow = document.createElement('button');
+      arrow.type = 'button'; arrow.className = 'expand-arrow';
+      arrow.textContent = h.collapsed ? '▸' : '▾';
+      arrow.addEventListener('click', (e) => { e.stopPropagation(); h.collapsed = !h.collapsed; saveState(); renderHabits(); });
+      nameTd.appendChild(arrow);
+    } else if(!isSub){
+      const spacer = document.createElement('span'); spacer.className = 'expand-spacer'; nameTd.appendChild(spacer);
+    }
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'habit-name';
+    nameSpan.textContent = h.name;
+    if(h.isChallengeHabit){ const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = 'challenge'; nameSpan.appendChild(chip); }
+    if(isSub){ const chip = document.createElement('span'); chip.className = 'chip chip-sub'; chip.textContent = 'deelhabit'; nameSpan.appendChild(chip); }
+    nameTd.appendChild(nameSpan);
+    tr.appendChild(nameTd);
+
+    DAY_LABELS.forEach((_, dayIdx) => {
+      const td = document.createElement('td');
+      td.className = 'day-col' + (dayIdx === todayIdx ? ' today' : '');
+      if(h.days.includes(dayIdx)){
+        const cb = document.createElement('input');
+        cb.type = 'checkbox'; cb.className = 'stamp';
+        cb.checked = !!(h.checks && h.checks[dayIdx]);
+        cb.addEventListener('change', () => {
+          if(isSub) onSubCheckChange(h, dayIdx, cb.checked);
+          else onMainCheckChange(h, dayIdx, cb.checked);
+        });
+        td.appendChild(cb);
+      } else {
+        const dash = document.createElement('span'); dash.className = 'day-off'; dash.textContent = '–'; td.appendChild(dash);
+      }
+      tr.appendChild(td);
+    });
+
+    nameSpan.addEventListener('mouseenter', (e) => showTooltip(e, habitTooltipHtml(h)));
+    nameSpan.addEventListener('mousemove', positionTooltip);
+    nameSpan.addEventListener('mouseleave', hideTooltip);
+    nameSpan.addEventListener('click', (e) => { e.stopPropagation(); hideTooltip(); closeAllPopovers(); openActionMenu(nameTd, h); });
+
+    return tr;
+  }
+
+  function onMainCheckChange(main, dayIdx, checked){
+    if(!main.checks) main.checks = {};
+    main.checks[dayIdx] = checked;
+    (main.subIds||[]).forEach(subId => {
+      const sub = findHabit(subId);
+      if(sub && sub.days.includes(dayIdx)){ if(!sub.checks) sub.checks = {}; sub.checks[dayIdx] = checked; }
+    });
+    saveState(); renderHabits();
+  }
+  function onSubCheckChange(sub, dayIdx, checked){
+    if(!sub.checks) sub.checks = {};
+    sub.checks[dayIdx] = checked;
+    const main = findHabit(sub.parentId);
+    if(main){
+      const siblingSubs = (main.subIds||[]).map(findHabit).filter(s => s && s.days.includes(dayIdx));
+      const allChecked = siblingSubs.length > 0 && siblingSubs.every(s => s.checks && s.checks[dayIdx]);
+      if(!main.checks) main.checks = {};
+      main.checks[dayIdx] = allChecked;
+    }
+    saveState(); renderHabits();
+  }
+
+  function habitTooltipHtml(h){
+    const scheduled = h.days.length;
+    const checkedNow = h.days.filter(d => h.checks && h.checks[d]).length;
+    let extra = '';
+    if(!h.isChallengeHabit){
+      extra = `<br>Beloning: <b>${fmtMoney(h.reward)}</b>${h.parentId ? ' bij 100% van de week' : ' per volledige week'}`
+            + `<br>Totaal verdiend: <b>${fmtMoney(h.totalEarned||0)}</b>`;
+    }
+    return `Deze week: <b>${checkedNow} van de ${scheduled}</b> dagen gehaald${extra}`;
+  }
+  function showTooltip(e, html){ tooltip.innerHTML = html; tooltip.style.display = 'block'; positionTooltip(e); }
+  function positionTooltip(e){
+    const pad = 14; let x = e.clientX + pad, y = e.clientY + pad;
+    if(x + 230 > window.innerWidth) x = e.clientX - 230;
+    if(y + 90 > window.innerHeight) y = e.clientY - 90;
+    tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+  }
+  function hideTooltip(){ tooltip.style.display = 'none'; }
+
+  // ---------- action menu / delete / step plan popover ----------
+  function openActionMenu(anchorTd, h){
+    const menu = document.createElement('div');
+    menu.className = 'action-menu popover';
+    const planBtn = document.createElement('button');
+    planBtn.textContent = '📋 Stappenplan van vandaag';
+    planBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); showStepPlanPopover(anchorTd, h); });
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✏️ Bewerken';
+    editBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); openEditModal(h); });
+    const delBtn = document.createElement('button');
+    delBtn.className = 'danger'; delBtn.textContent = '🗑 Verwijderen';
+    delBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); confirmDeleteHabit(h, anchorTd); });
+    menu.appendChild(planBtn); menu.appendChild(editBtn); menu.appendChild(delBtn);
+    anchorTd.appendChild(menu);
+  }
+  function confirmDeleteHabit(h, anchorTd){
+    const pop = document.createElement('div');
+    pop.className = 'del-pop popover';
+    pop.innerHTML = `<span>${h.subIds && h.subIds.length ? 'Habit + deelhabits weggooien?' : 'Habit weggooien?'}</span>`;
+    const yes = document.createElement('button'); yes.className = 'yes'; yes.textContent = 'Verwijder';
+    yes.addEventListener('click', (e) => { e.stopPropagation(); deleteHabitCascade(h); });
+    const no = document.createElement('button'); no.className = 'no'; no.textContent = 'Annuleer';
+    no.addEventListener('click', (e) => { e.stopPropagation(); pop.remove(); });
+    pop.appendChild(yes); pop.appendChild(no);
+    anchorTd.appendChild(pop);
+  }
+  function deleteHabitCascade(h){
+    let idsToRemove = [h.id];
+    if(h.subIds && h.subIds.length) idsToRemove = idsToRemove.concat(h.subIds);
+    if(h.parentId){ const parent = findHabit(h.parentId); if(parent) parent.subIds = (parent.subIds||[]).filter(id => id !== h.id); }
+    state.habits = state.habits.filter(x => !idsToRemove.includes(x.id));
+    saveState(); renderHabits();
+  }
+  function showStepPlanPopover(anchorTd, h){
+    const todayIdx = mondayIndex(new Date());
+    const plan = h.stepPlans && h.stepPlans[todayIdx];
+    const pop = document.createElement('div');
+    pop.className = 'plan-pop popover';
+    const title = `<div class="plan-pop-title">Stappenplan — ${FULL_DAY_NAMES[todayIdx]}</div>`;
+    if(plan && plan.trim()){
+      pop.innerHTML = title + `<div class="plan-pop-body">${escapeHtml(plan)}</div>`;
+    } else {
+      pop.innerHTML = title + `<div class="plan-pop-body plan-pop-empty">Geen stappenplan voor vandaag.</div>`;
+    }
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'plan-pop-close'; closeBtn.textContent = 'Sluiten';
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); pop.remove(); });
+    pop.appendChild(closeBtn);
+    pop.addEventListener('click', (e) => e.stopPropagation());
+    anchorTd.appendChild(pop);
+  }
+
+  // ---------- generic day picker builder ----------
+  function buildDayPicker(container, opts){
+    opts = opts || {};
+    container.innerHTML = '';
+    const selected = new Set(opts.preset || []);
+    const buttons = [];
+    DAY_LABELS.forEach((label, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day-toggle' + (opts.subStyle ? ' sub' : '');
+      btn.textContent = label;
+      const allowed = !opts.restrictTo || opts.restrictTo.has(idx);
+      if(selected.has(idx) && allowed) btn.classList.add('active');
+      if(!allowed){ btn.disabled = true; btn.classList.add('disabled'); selected.delete(idx); }
+      btn.addEventListener('click', () => {
+        if(btn.disabled) return;
+        if(selected.has(idx)){ selected.delete(idx); btn.classList.remove('active'); }
+        else { selected.add(idx); btn.classList.add('active'); }
+        if(opts.onChange) opts.onChange(selected);
+      });
+      buttons.push(btn);
+      container.appendChild(btn);
+    });
+    return {
+      selected, buttons,
+      refreshRestrict(newRestrict){
+        buttons.forEach((btn, idx) => {
+          const allowed = !newRestrict || newRestrict.has(idx);
+          btn.disabled = !allowed;
+          btn.classList.toggle('disabled', !allowed);
+          if(!allowed && selected.has(idx)){ selected.delete(idx); btn.classList.remove('active'); }
+        });
+        if(opts.onChange) opts.onChange(selected);
+      }
+    };
+  }
+
+  // ---------- modals: open/close ----------
+  const overlayHabit = document.getElementById('overlay-habit');
+  const overlayEdit = document.getElementById('overlay-edit');
+  const overlayChallenge = document.getElementById('overlay-challenge');
+  function openOverlay(el){ el.classList.add('open'); }
+  function closeOverlay(el){ el.classList.remove('open'); }
+  document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeOverlay(document.getElementById(btn.dataset.close))));
+  [overlayHabit, overlayEdit, overlayChallenge].forEach(ov => ov.addEventListener('click', (e) => { if(e.target === ov) closeOverlay(ov); }));
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeOverlay(overlayHabit); closeOverlay(overlayEdit); closeOverlay(overlayChallenge); } });
+
+  // ---------- new habit modal ----------
+  let habitDayPicker = null;
+  let subHabitBlockPickers = [];
+
+  function addSubHabitBlock(){
+    const container = document.getElementById('subhabit-blocks');
+    const block = document.createElement('div');
+    block.className = 'subhabit-block';
+
+    const headerRow = document.createElement('div'); headerRow.className = 'subhabit-block-header';
+    const nameLabel = document.createElement('span'); nameLabel.className = 'mini-label'; nameLabel.textContent = 'Deelhabit';
+    const removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.className = 'subhabit-remove'; removeBtn.textContent = '✕ verwijder';
+    headerRow.appendChild(nameLabel); headerRow.appendChild(removeBtn);
+    block.appendChild(headerRow);
+
+    const nameField = document.createElement('div'); nameField.className = 'mini-field';
+    nameField.innerHTML = `<span class="mini-label">Naam</span>`;
+    const nameInput = document.createElement('input'); nameInput.type = 'text'; nameInput.placeholder = 'Bijv. Opstaan'; nameInput.maxLength = 60;
+    nameField.appendChild(nameInput);
+    block.appendChild(nameField);
+
+    const daysField = document.createElement('div'); daysField.className = 'mini-field';
+    daysField.innerHTML = `<span class="mini-label">Dagen</span>`;
+    const daysWrap = document.createElement('div'); daysWrap.className = 'days-picker';
+    daysField.appendChild(daysWrap);
+    block.appendChild(daysField);
+
+    const rewardField = document.createElement('div'); rewardField.className = 'mini-field';
+    rewardField.innerHTML = `<span class="mini-label">Geld bij 100% van de week (€)</span>`;
+    const rewardInput = document.createElement('input'); rewardInput.type = 'number'; rewardInput.min = '0'; rewardInput.step = '0.01'; rewardInput.value = '0.50';
+    rewardField.appendChild(rewardInput);
+    block.appendChild(rewardField);
+
+    const picker = buildDayPicker(daysWrap, { subStyle: true, restrictTo: habitDayPicker.selected });
+    subHabitBlockPickers.push(picker);
+
+    removeBtn.addEventListener('click', () => {
+      subHabitBlockPickers = subHabitBlockPickers.filter(p => p !== picker);
+      block.remove();
+    });
+
+    block.__refs = { nameInput, rewardInput, picker };
+    container.appendChild(block);
+  }
+
+  document.getElementById('btn-new-habit').addEventListener('click', () => {
+    document.getElementById('form-habit').reset();
+    document.getElementById('habit-error').classList.remove('show');
+    document.getElementById('habit-reward').value = '1.00';
+    document.getElementById('habit-add-subs').checked = false;
+    document.getElementById('subhabit-fieldset').classList.remove('open');
+    document.getElementById('subhabit-blocks').innerHTML = '';
+    subHabitBlockPickers = [];
+    habitDayPicker = buildDayPicker(document.getElementById('habit-days-picker'), {
+      onChange: (sel) => subHabitBlockPickers.forEach(p => p.refreshRestrict(sel))
+    });
+    openOverlay(overlayHabit);
+    setTimeout(() => document.getElementById('habit-name').focus(), 50);
+  });
+
+  document.getElementById('habit-add-subs').addEventListener('change', (e) => {
+    document.getElementById('subhabit-fieldset').classList.toggle('open', e.target.checked);
+  });
+  document.getElementById('btn-add-subhabit').addEventListener('click', () => addSubHabitBlock());
+
+  document.getElementById('form-habit').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('habit-name').value.trim();
+    const reward = parseFloat(document.getElementById('habit-reward').value) || 0;
+    const days = Array.from(habitDayPicker.selected).sort((a,b)=>a-b);
+    const errorEl = document.getElementById('habit-error');
+    if(!name || days.length === 0){ errorEl.classList.add('show'); return; }
+    errorEl.classList.remove('show');
+
+    const mainId = uid();
+    const subIds = [];
+    if(document.getElementById('habit-add-subs').checked){
+      document.querySelectorAll('#subhabit-blocks .subhabit-block').forEach(block => {
+        const refs = block.__refs;
+        const subName = refs.nameInput.value.trim();
+        const subDays = Array.from(refs.picker.selected).sort((a,b)=>a-b);
+        const subReward = parseFloat(refs.rewardInput.value) || 0;
+        if(subName && subDays.length){
+          const subId = uid();
+          state.habits.push({
+            id: subId, name: subName, days: subDays, reward: subReward, checks: {},
+            isChallengeHabit: false, challengeId: null, parentId: mainId, subIds: [], stepPlans: {},
+            totalScheduled: 0, totalChecked: 0, totalEarned: 0
+          });
+          subIds.push(subId);
+        }
+      });
+    }
+    state.habits.push({
+      id: mainId, name, days, reward, checks: {}, isChallengeHabit: false, challengeId: null,
+      parentId: null, subIds, stepPlans: {}, collapsed: false,
+      totalScheduled: 0, totalChecked: 0, totalEarned: 0
+    });
+    saveState(); renderHabits(); closeOverlay(overlayHabit);
+  });
+
+  // ---------- edit habit modal ----------
+  let editingHabitId = null;
+  let editDaysPicker = null;
+
+  function buildEditStepPlanRows(){
+    const container = document.getElementById('edit-stepplans');
+    container.innerHTML = '';
+    FULL_DAY_NAMES.forEach((name, idx) => {
+      const row = document.createElement('div');
+      row.className = 'step-row';
+      row.dataset.day = idx;
+      row.innerHTML = `<label class="step-row-label">${name}</label><textarea id="edit-step-${idx}" rows="2" placeholder="Bijv. 10 min warming-up, 3x12 squats..."></textarea>`;
+      container.appendChild(row);
+    });
+  }
+  function refreshEditStepPlanVisibility(daysSet){
+    document.querySelectorAll('#edit-stepplans .step-row').forEach(row => {
+      row.style.display = daysSet.has(parseInt(row.dataset.day,10)) ? 'block' : 'none';
+    });
+  }
+
+  function openEditModal(h){
+    editingHabitId = h.id;
+    document.getElementById('edit-name').value = h.name;
+    document.getElementById('edit-modal-sub').textContent = h.isChallengeHabit
+      ? 'Challenge-habit — verdient geen geld.'
+      : (h.parentId ? 'Deelhabit — dagen moeten binnen de hoofdhabit vallen.' : 'Pas naam, dagen, beloning en stappenplan aan.');
+
+    const rewardField = document.getElementById('edit-reward-field');
+    if(h.isChallengeHabit){ rewardField.style.display = 'none'; }
+    else { rewardField.style.display = 'block'; document.getElementById('edit-reward').value = h.reward; }
+
+    let restrictTo = null;
+    if(h.parentId){ const parent = findHabit(h.parentId); if(parent) restrictTo = new Set(parent.days); }
+
+    buildEditStepPlanRows();
+    editDaysPicker = buildDayPicker(document.getElementById('edit-days-picker'), {
+      preset: h.days, restrictTo, subStyle: !!h.parentId,
+      onChange: (sel) => refreshEditStepPlanVisibility(sel)
+    });
+    refreshEditStepPlanVisibility(editDaysPicker.selected);
+    FULL_DAY_NAMES.forEach((_, idx) => {
+      const ta = document.getElementById('edit-step-' + idx);
+      if(ta) ta.value = (h.stepPlans && h.stepPlans[idx]) || '';
+    });
+    document.getElementById('edit-error').classList.remove('show');
+    openOverlay(overlayEdit);
+  }
+
+  document.getElementById('form-edit').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const h = findHabit(editingHabitId);
+    if(!h) return;
+    const name = document.getElementById('edit-name').value.trim();
+    const days = Array.from(editDaysPicker.selected).sort((a,b)=>a-b);
+    const errorEl = document.getElementById('edit-error');
+    if(!name || days.length === 0){ errorEl.classList.add('show'); return; }
+    errorEl.classList.remove('show');
+
+    h.name = name;
+    h.days = days;
+    if(!h.isChallengeHabit) h.reward = parseFloat(document.getElementById('edit-reward').value) || 0;
+
+    const newStepPlans = {};
+    days.forEach(idx => {
+      const ta = document.getElementById('edit-step-' + idx);
+      const val = ta ? ta.value.trim() : '';
+      if(val) newStepPlans[idx] = val;
+    });
+    h.stepPlans = newStepPlans;
+
+    if(h.checks){ Object.keys(h.checks).forEach(k => { if(!days.includes(parseInt(k,10))) delete h.checks[k]; }); }
+
+    if(h.subIds && h.subIds.length){
+      h.subIds.forEach(subId => {
+        const sub = findHabit(subId);
+        if(sub){
+          const filtered = sub.days.filter(d => days.includes(d));
+          if(filtered.length !== sub.days.length){
+            sub.days = filtered;
+            if(sub.checks){ Object.keys(sub.checks).forEach(k => { if(!filtered.includes(parseInt(k,10))) delete sub.checks[k]; }); }
+          }
+        }
+      });
+    }
+    saveState(); renderHabits(); closeOverlay(overlayEdit);
+  });
+
+  // ---------- challenges ----------
+  function renderChallenges(){
+    challengeList.querySelectorAll('.challenge-row').forEach(el => el.remove());
+    const todayIso = isoDate(new Date());
+    challengeEmpty.style.display = state.challenges.length ? 'none' : 'block';
+
+    state.challenges.slice().sort((a,b) => a.startDate.localeCompare(b.startDate)).forEach(c => {
+      const row = document.createElement('div');
+      const expired = !c.completed && todayIso > c.endDate;
+      row.className = 'challenge-row' + (c.completed ? ' completed' : '');
+      row.dataset.id = c.id;
+      row.innerHTML = `
+        <div class="challenge-field cf-start"><span class="lbl">Start</span><span class="val">${fmtDate(c.startDate)}</span></div>
+        <div class="challenge-field cf-goal"><span class="lbl">Doel</span><span class="val">${escapeHtml(c.goal)}</span></div>
+        <div class="challenge-field cf-end"><span class="lbl">Eind</span><span class="val">${fmtDate(c.endDate)}</span></div>
+        <div class="challenge-field cf-reward"><span class="lbl">Beloning</span><span class="val">${fmtMoney(c.reward)}</span></div>
+      `;
+      if(expired){
+        const badge = document.createElement('span'); badge.className = 'badge expired'; badge.textContent = 'Verlopen';
+        row.querySelector('.cf-end').appendChild(badge);
+      } else if(c.completed){
+        const badge = document.createElement('span'); badge.className = 'badge done'; badge.textContent = 'Voltooid';
+        row.querySelector('.cf-reward').appendChild(badge);
+      }
+
+      const actions = document.createElement('div'); actions.className = 'challenge-actions';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.className = 'stamp'; cb.checked = !!c.completed; cb.title = 'Markeer als voltooid';
+      cb.addEventListener('change', () => {
+        if(cb.checked && !c.completed){ c.completed = true; state.money = Math.round((state.money + c.reward)*100)/100; renderMoney(true); }
+        else if(!cb.checked && c.completed){ c.completed = false; state.money = Math.round((state.money - c.reward)*100)/100; renderMoney(false); }
+        saveState(); renderChallenges();
+      });
+      const trash = document.createElement('button');
+      trash.className = 'trash-btn'; trash.type = 'button'; trash.title = 'Challenge verwijderen'; trash.textContent = '🗑';
+      trash.addEventListener('click', () => {
+        state.challenges = state.challenges.filter(x => x.id !== c.id);
+        if(c.linkedHabitId) state.habits = state.habits.filter(h => h.id !== c.linkedHabitId);
+        saveState(); renderChallenges(); renderHabits();
+      });
+      actions.appendChild(cb); actions.appendChild(trash);
+      row.appendChild(actions);
+      challengeList.appendChild(row);
+    });
+  }
+
+  let chHabitDaySelectionPicker = null;
+  document.getElementById('btn-new-challenge').addEventListener('click', () => {
+    document.getElementById('form-challenge').reset();
+    document.getElementById('challenge-error').classList.remove('show');
+    document.getElementById('challenge-start').value = isoDate(new Date());
+    document.getElementById('challenge-days').value = '30';
+    document.getElementById('challenge-reward').value = '5.00';
+    document.getElementById('challenge-add-habit').checked = false;
+    document.getElementById('challenge-habit-fieldset').classList.remove('open');
+    chHabitDaySelectionPicker = buildDayPicker(document.getElementById('ch-habit-days-picker'), { subStyle: true });
+    openOverlay(overlayChallenge);
+    setTimeout(() => document.getElementById('challenge-goal').focus(), 50);
+  });
+  document.getElementById('challenge-add-habit').addEventListener('change', (e) => {
+    document.getElementById('challenge-habit-fieldset').classList.toggle('open', e.target.checked);
+  });
+
+  document.getElementById('form-challenge').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const startDate = document.getElementById('challenge-start').value || isoDate(new Date());
+    const goal = document.getElementById('challenge-goal').value.trim();
+    const days = parseInt(document.getElementById('challenge-days').value, 10);
+    const reward = parseFloat(document.getElementById('challenge-reward').value) || 0;
+    const addHabit = document.getElementById('challenge-add-habit').checked;
+    const chName = document.getElementById('ch-habit-name').value.trim();
+    const chDays = Array.from(chHabitDaySelectionPicker.selected).sort((a,b)=>a-b);
+    const errorEl = document.getElementById('challenge-error');
+
+    if(!goal || !days || days < 1){ errorEl.textContent = 'Vul een doel in en een geldig aantal dagen.'; errorEl.classList.add('show'); return; }
+    if(addHabit && (!chName || chDays.length === 0)){ errorEl.textContent = 'Vul een naam en minstens één dag in voor de challenge-habit.'; errorEl.classList.add('show'); return; }
+    errorEl.classList.remove('show');
+
+    const challengeId = uid();
+    let linkedHabitId = null;
+    if(addHabit){
+      linkedHabitId = uid();
+      state.habits.push({
+        id: linkedHabitId, name: chName, days: chDays, reward: 0, checks: {},
+        isChallengeHabit: true, challengeId, parentId: null, subIds: [], stepPlans: {},
+        totalScheduled: 0, totalChecked: 0, totalEarned: 0
+      });
+    }
+    state.challenges.push({ id: challengeId, startDate, goal, days, endDate: addDays(startDate, days), reward, completed: false, linkedHabitId });
+    saveState(); renderChallenges(); renderHabits(); closeOverlay(overlayChallenge);
+  });
+
+  // ---------- offline support (PWA) ----------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(e => console.error('Service worker registratie mislukt', e));
+    });
+  }
+
+  // ---------- init ----------
+  async function init(){
+    await loadState();
+    processWeekRollover();
+    renderMoney(false);
+    renderHabits();
+    renderChallenges();
+    setInterval(() => { processWeekRollover(); renderMoney(true); renderHabits(); renderChallenges(); }, 60 * 60 * 1000);
+  }
+  init();
+})();
+</script>
+</body>
+</html>
