@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>Kasboek — Habit Tracker</title>
+<title>Kasboek — gewoonte Tracker</title>
 <meta name="theme-color" content="#1B4332">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -104,35 +104,35 @@
     box-shadow: var(--shadow); overflow: visible; margin-bottom: 42px;
   }
 
-  /* ===== Habits table ===== */
-  .habit-table{ width:100%; border-collapse: collapse;}
-  .habit-table thead th{
+  /* ===== gewoontes table ===== */
+  .gewoonte-table{ width:100%; border-collapse: collapse;}
+  .gewoonte-table thead th{
     text-align:left; font-family:'IBM Plex Mono', monospace; font-size: 0.72rem;
     letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft);
     padding: 12px 10px; border-bottom: 1px dashed var(--line);
   }
-  .habit-table thead th.day-col{ text-align:center; width: 46px; }
-  .habit-table thead th.first{ padding-left:20px; }
-  .habit-table thead th.day-col.today{ background: var(--gold-bg); color: var(--forest); font-weight:700; border-radius:6px 6px 0 0; }
-  .habit-row{ border-bottom: 1px dashed var(--line);}
-  .habit-row td{ padding: 12px 10px; vertical-align: middle;}
-  .habit-row:last-child td{ border-bottom:none; }
-  .habit-row.challenge-habit{ background: var(--sage); }
-  .habit-row.challenge-habit td{ border-bottom-color: var(--sage-line); }
-  .habit-row.sub-habit-row{ background: var(--sub-bg); }
+  .gewoonte-table thead th.day-col{ text-align:center; width: 46px; }
+  .gewoonte-table thead th.first{ padding-left:20px; }
+  .gewoonte-table thead th.day-col.today{ background: var(--gold-bg); color: var(--forest); font-weight:700; border-radius:6px 6px 0 0; }
+  .gewoonte-row{ border-bottom: 1px dashed var(--line);}
+  .gewoonte-row td{ padding: 12px 10px; vertical-align: middle;}
+  .gewoonte-row:last-child td{ border-bottom:none; }
+  .gewoonte-row.challenge-gewoonte{ background: var(--sage); }
+  .gewoonte-row.challenge-gewoonte td{ border-bottom-color: var(--sage-line); }
+  .gewoonte-row.sub-gewoonte-row{ background: var(--sub-bg); }
 
-  .habit-row.sub-habit-row .habit-name-cell{ padding-left: 44px !important; }
-  .habit-row.sub-habit-row .habit-name{ font-weight:500; font-size:0.9rem; color: var(--ink-soft); }
+  .gewoonte-row.sub-gewoonte-row .gewoonte-name-cell{ padding-left: 44px !important; }
+  .gewoonte-row.sub-gewoonte-row .gewoonte-name{ font-weight:500; font-size:0.9rem; color: var(--ink-soft); }
   td.day-col.today{ background: rgba(185,138,46,0.12); }
-  .habit-name-cell{ padding-left:20px !important; position:relative; display:flex; align-items:center; gap:2px; }
+  .gewoonte-name-cell{ padding-left:20px !important; position:relative; display:flex; align-items:center; gap:2px; }
   .expand-arrow{
     background:none; border:none; color: var(--ink-soft); font-size:0.7rem; width:16px;
     padding:0; margin-right:4px; flex-shrink:0;
   }
   .expand-arrow:hover{ color: var(--forest); }
   .expand-spacer{ display:inline-block; width:20px; flex-shrink:0; }
-  .habit-name{ font-weight:600; cursor:pointer; border-bottom: 1px dotted transparent; position:relative; }
-  .habit-name:hover{ color: var(--forest); border-bottom-color: var(--forest); }
+  .gewoonte-name{ font-weight:600; cursor:pointer; border-bottom: 1px dotted transparent; position:relative; }
+  .gewoonte-name:hover{ color: var(--forest); border-bottom-color: var(--forest); }
   .chip{
     display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:0.62rem;
     background: var(--sage-line); color:#fff; padding:1px 6px; border-radius:5px;
@@ -241,13 +241,13 @@
   .error-msg{ color: var(--red); font-size:0.8rem; margin-top:-8px; margin-bottom:14px; display:none; }
   .error-msg.show{ display:block; }
 
-  .subhabit-block{ background: var(--paper-raised); border: 1px solid var(--sage-line); border-radius:8px; padding: 10px 12px; margin-bottom: 10px; }
-  .subhabit-block-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
-  .subhabit-remove{ background:none; border:none; color: var(--red); font-size:0.85rem; padding:2px 6px; }
+  .subgewoonte-block{ background: var(--paper-raised); border: 1px solid var(--sage-line); border-radius:8px; padding: 10px 12px; margin-bottom: 10px; }
+  .subgewoonte-block-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .subgewoonte-remove{ background:none; border:none; color: var(--red); font-size:0.85rem; padding:2px 6px; }
   .mini-field{ margin-bottom: 8px; }
   .mini-field:last-child{ margin-bottom:0; }
   .mini-label{ display:block; font-size:0.68rem; font-weight:700; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px; font-family:'IBM Plex Mono',monospace; }
-  .subhabit-block input[type=text], .subhabit-block input[type=number]{
+  .subgewoonte-block input[type=text], .subgewoonte-block input[type=number]{
     width:100%; padding: 7px 9px; border-radius:6px; border: 1px solid var(--line); background: var(--paper); font-size:0.88rem;
   }
 
@@ -261,11 +261,11 @@
     .wrap{ margin: 20px auto; padding: 0 12px; }
     .section-head h2{ font-size:1.2rem; }
     .ledger-card{ overflow-x:auto; border-radius:10px; -webkit-overflow-scrolling: touch; }
-    .habit-table{ min-width: 560px; }
-    .habit-table thead th{ padding: 10px 8px; }
-    .habit-row td{ padding: 14px 8px; }
+    .gewoonte-table{ min-width: 560px; }
+    .gewoonte-table thead th{ padding: 10px 8px; }
+    .gewoonte-row td{ padding: 14px 8px; }
     input.stamp{ width:30px; height:30px; }
-    .habit-table thead th.day-col{ width: 50px; }
+    .gewoonte-table thead th.day-col{ width: 50px; }
     .challenge-row{ flex-wrap:wrap; row-gap:10px; padding: 14px 16px; }
     .challenge-actions{ margin-left:0; width:100%; justify-content:space-between; }
     .modal{ padding: 22px 18px 18px; border-radius:16px; max-height: calc(88vh - env(safe-area-inset-bottom)); }
@@ -274,7 +274,7 @@
   }
 
   @media (max-width: 400px){
-    .habit-table{ min-width: 520px; }
+    .gewoonte-table{ min-width: 520px; }
   }
 </style>
 </head>
@@ -283,7 +283,7 @@
 <div class="topbar">
   <div class="left">
     <div class="brand"><span class="mark">€</span>Kasboek</div>
-    <button class="btn" id="btn-new-habit">+ Nieuwe habit</button>
+    <button class="btn" id="btn-new-gewoonte">+ Nieuwe gewoonte</button>
     <button class="btn" id="btn-new-challenge">+ Nieuwe challenge</button>
   </div>
   <div class="money-plate" id="money-plate">
@@ -295,23 +295,23 @@
 <div class="wrap">
 
   <div class="section-head">
-    <h2>Habits</h2>
+    <h2>gewoontes</h2>
     <span class="sub">wekelijks — reset elke maandag</span>
   </div>
   <div class="ledger-card">
-    <table class="habit-table" id="habit-table">
+    <table class="gewoonte-table" id="gewoonte-table">
       <thead>
         <tr>
-          <th class="first">Habit</th>
+          <th class="first">gewoonte</th>
           <th class="day-col">Ma</th><th class="day-col">Di</th><th class="day-col">Wo</th>
           <th class="day-col">Do</th><th class="day-col">Vr</th><th class="day-col">Za</th><th class="day-col">Zo</th>
         </tr>
       </thead>
-      <tbody id="habit-tbody"></tbody>
+      <tbody id="gewoonte-tbody"></tbody>
     </table>
-    <div class="empty-state" id="habit-empty" style="display:none;">
+    <div class="empty-state" id="gewoonte-empty" style="display:none;">
       <span class="icon">📓</span>
-      Nog geen habits. Klik op “+ Nieuwe habit” om te beginnen.
+      Nog geen gewoontes. Klik op “+ Nieuwe gewoonte” om te beginnen.
     </div>
   </div>
 
@@ -330,47 +330,47 @@
 
 <div class="tooltip" id="tooltip"></div>
 
-<!-- ===== Habit modal ===== -->
-<div class="overlay" id="overlay-habit">
+<!-- ===== gewoonte modal ===== -->
+<div class="overlay" id="overlay-gewoonte">
   <div class="modal">
-    <h3>Nieuwe habit</h3>
+    <h3>Nieuwe gewoonte</h3>
     <div class="modal-sub">Stel een wekelijkse gewoonte in en wat die je oplevert.</div>
-    <form id="form-habit">
+    <form id="form-gewoonte">
       <div class="field">
-        <label for="habit-name">Naam</label>
-        <input type="text" id="habit-name" required maxlength="60" placeholder="Bijv. Ochtendroutine">
+        <label for="gewoonte-name">Naam</label>
+        <input type="text" id="gewoonte-name" required maxlength="60" placeholder="Bijv. Ochtendroutine">
       </div>
       <div class="field">
         <label>Dagen</label>
-        <div class="days-picker" id="habit-days-picker"></div>
+        <div class="days-picker" id="gewoonte-days-picker"></div>
       </div>
       <div class="field">
-        <label for="habit-reward">Geld per volledige week (€)</label>
-        <input type="number" id="habit-reward" min="0" step="0.01" value="1.00" required>
+        <label for="gewoonte-reward">Geld per volledige week (€)</label>
+        <input type="number" id="gewoonte-reward" min="0" step="0.01" value="1.00" required>
       </div>
       <div class="toggle-row">
-        <input type="checkbox" id="habit-add-subs">
-        <label for="habit-add-subs">Deelhabits toevoegen (bijv. voor een routine)</label>
+        <input type="checkbox" id="gewoonte-add-subs">
+        <label for="gewoonte-add-subs">Deelgewoontes toevoegen (bijv. voor een routine)</label>
       </div>
-      <fieldset class="sub-fieldset" id="subhabit-fieldset">
-        <legend>Deelhabits</legend>
-        <p class="hint">Alleen dagen die je hierboven bij de habit hebt gekozen zijn beschikbaar. De hoofdhabit wordt automatisch aangevinkt zodra alle deelhabits van die dag zijn afgevinkt.</p>
-        <div id="subhabit-blocks"></div>
-        <button type="button" class="btn-plain" id="btn-add-subhabit">+ Voeg deelhabit toe</button>
+      <fieldset class="sub-fieldset" id="subgewoonte-fieldset">
+        <legend>Deelgewoontes</legend>
+        <p class="hint">Alleen dagen die je hierboven bij de gewoonte hebt gekozen zijn beschikbaar. De hoofdgewoonte wordt automatisch aangevinkt zodra alle deelgewoontes van die dag zijn afgevinkt.</p>
+        <div id="subgewoonte-blocks"></div>
+        <button type="button" class="btn-plain" id="btn-add-subgewoonte">+ Voeg deelgewoonte toe</button>
       </fieldset>
-      <div class="error-msg" id="habit-error">Vul een naam in en kies minstens één dag.</div>
+      <div class="error-msg" id="gewoonte-error">Vul een naam in en kies minstens één dag.</div>
       <div class="modal-actions">
-        <button type="button" class="btn-plain" data-close="overlay-habit">Annuleren</button>
+        <button type="button" class="btn-plain" data-close="overlay-gewoonte">Annuleren</button>
         <button type="submit" class="btn btn-gold">Toevoegen</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- ===== Edit habit modal ===== -->
+<!-- ===== Edit gewoonte modal ===== -->
 <div class="overlay" id="overlay-edit">
   <div class="modal">
-    <h3>Habit bewerken</h3>
+    <h3>gewoonte bewerken</h3>
     <div class="modal-sub" id="edit-modal-sub"></div>
     <form id="form-edit">
       <div class="field">
@@ -421,18 +421,18 @@
         <input type="number" id="challenge-reward" min="0" step="0.01" value="5.00" required>
       </div>
       <div class="toggle-row">
-        <input type="checkbox" id="challenge-add-habit">
-        <label for="challenge-add-habit">Challenge-habit toevoegen</label>
+        <input type="checkbox" id="challenge-add-gewoonte">
+        <label for="challenge-add-gewoonte">Challenge-gewoonte toevoegen</label>
       </div>
-      <fieldset class="sub-fieldset" id="challenge-habit-fieldset">
-        <legend>Challenge-habit</legend>
+      <fieldset class="sub-fieldset" id="challenge-gewoonte-fieldset">
+        <legend>Challenge-gewoonte</legend>
         <div class="field">
-          <label for="ch-habit-name">Naam</label>
-          <input type="text" id="ch-habit-name" maxlength="60" placeholder="Bijv. dagelijks 5 km lopen">
+          <label for="ch-gewoonte-name">Naam</label>
+          <input type="text" id="ch-gewoonte-name" maxlength="60" placeholder="Bijv. dagelijks 5 km lopen">
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Dagen</label>
-          <div class="days-picker" id="ch-habit-days-picker"></div>
+          <div class="days-picker" id="ch-gewoonte-days-picker"></div>
         </div>
       </fieldset>
       <div class="error-msg" id="challenge-error">Controleer je invoer.</div>
@@ -450,9 +450,9 @@
   const FULL_DAY_NAMES = ['Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag','Zondag'];
   const STORAGE_KEY = 'kasboek-state';
 
-  let state = { money: 0, habits: [], challenges: [], lastResetWeek: null };
+  let state = { money: 0, gewoontes: [], challenges: [], lastResetWeek: null };
   const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
-  const findHabit = (id) => state.habits.find(x => x.id === id);
+  const findgewoonte = (id) => state.gewoontes.find(x => x.id === id);
 
   // ---------- date / week helpers ----------
   function isoDate(d){ const off = d.getTimezoneOffset(); const local = new Date(d.getTime() - off*60000); return local.toISOString().slice(0,10); }
@@ -500,7 +500,7 @@
       if(res && res.value){ state = Object.assign(state, JSON.parse(res.value)); }
     }catch(e){ console.error('Laden mislukt', e); }
     if(!state.lastResetWeek){ state.lastResetWeek = getWeekKey(new Date()); }
-    state.habits.forEach(h => { if(h.subIds === undefined) h.subIds = []; if(h.parentId === undefined) h.parentId = null; if(h.stepPlans === undefined) h.stepPlans = {}; if(h.collapsed === undefined) h.collapsed = false; });
+    state.gewoontes.forEach(h => { if(h.subIds === undefined) h.subIds = []; if(h.parentId === undefined) h.parentId = null; if(h.stepPlans === undefined) h.stepPlans = {}; if(h.collapsed === undefined) h.collapsed = false; });
   }
   let saveTimer = null;
   function saveState(){
@@ -516,8 +516,8 @@
     const currentWeek = getWeekKey(new Date());
     if(state.lastResetWeek === currentWeek) return;
     let totalAwarded = 0;
-    state.habits.forEach(h => {
-      if(h.isChallengeHabit){ h.checks = {}; return; }
+    state.gewoontes.forEach(h => {
+      if(h.isChallengegewoonte){ h.checks = {}; return; }
       const scheduled = h.days.length;
       const checkedCount = h.days.filter(d => h.checks && h.checks[d]).length;
       let awarded = 0;
@@ -540,8 +540,8 @@
   }
 
   // ---------- shared elements ----------
-  const habitTbody = document.getElementById('habit-tbody');
-  const habitEmpty = document.getElementById('habit-empty');
+  const gewoonteTbody = document.getElementById('gewoonte-tbody');
+  const gewoonteEmpty = document.getElementById('gewoonte-empty');
   const challengeList = document.getElementById('challenge-list');
   const challengeEmpty = document.getElementById('challenge-empty');
   const moneyTotalEl = document.getElementById('money-total');
@@ -557,50 +557,50 @@
 
   function highlightTodayHeader(){
     const todayIdx = mondayIndex(new Date());
-    document.querySelectorAll('#habit-table thead th.day-col').forEach((th,idx) => th.classList.toggle('today', idx===todayIdx));
+    document.querySelectorAll('#gewoonte-table thead th.day-col').forEach((th,idx) => th.classList.toggle('today', idx===todayIdx));
   }
 
-  // ---------- habits rendering ----------
-  function renderHabits(){
-    habitTbody.innerHTML = '';
-    const topLevel = state.habits.filter(h => !h.parentId);
-    habitEmpty.style.display = topLevel.length ? 'none' : 'block';
+  // ---------- gewoontes rendering ----------
+  function rendergewoontes(){
+    gewoonteTbody.innerHTML = '';
+    const topLevel = state.gewoontes.filter(h => !h.parentId);
+    gewoonteEmpty.style.display = topLevel.length ? 'none' : 'block';
     const todayIdx = mondayIndex(new Date());
     topLevel.forEach(h => {
-      habitTbody.appendChild(buildHabitRow(h, todayIdx, false));
+      gewoonteTbody.appendChild(buildgewoonteRow(h, todayIdx, false));
       if(h.subIds && h.subIds.length && !h.collapsed){
         h.subIds.forEach(subId => {
-          const sub = findHabit(subId);
-          if(sub) habitTbody.appendChild(buildHabitRow(sub, todayIdx, true));
+          const sub = findgewoonte(subId);
+          if(sub) gewoonteTbody.appendChild(buildgewoonteRow(sub, todayIdx, true));
         });
       }
     });
     highlightTodayHeader();
   }
 
-  function buildHabitRow(h, todayIdx, isSub){
+  function buildgewoonteRow(h, todayIdx, isSub){
     const tr = document.createElement('tr');
-    tr.className = 'habit-row' + (h.isChallengeHabit ? ' challenge-habit' : '') + (isSub ? ' sub-habit-row' : '');
+    tr.className = 'gewoonte-row' + (h.isChallengegewoonte ? ' challenge-gewoonte' : '') + (isSub ? ' sub-gewoonte-row' : '');
     tr.dataset.id = h.id;
 
     const nameTd = document.createElement('td');
-    nameTd.className = 'habit-name-cell';
+    nameTd.className = 'gewoonte-name-cell';
 
     if(!isSub && h.subIds && h.subIds.length){
       const arrow = document.createElement('button');
       arrow.type = 'button'; arrow.className = 'expand-arrow';
       arrow.textContent = h.collapsed ? '▸' : '▾';
-      arrow.addEventListener('click', (e) => { e.stopPropagation(); h.collapsed = !h.collapsed; saveState(); renderHabits(); });
+      arrow.addEventListener('click', (e) => { e.stopPropagation(); h.collapsed = !h.collapsed; saveState(); rendergewoontes(); });
       nameTd.appendChild(arrow);
     } else if(!isSub){
       const spacer = document.createElement('span'); spacer.className = 'expand-spacer'; nameTd.appendChild(spacer);
     }
 
     const nameSpan = document.createElement('span');
-    nameSpan.className = 'habit-name';
+    nameSpan.className = 'gewoonte-name';
     nameSpan.textContent = h.name;
-    if(h.isChallengeHabit){ const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = 'challenge'; nameSpan.appendChild(chip); }
-    if(isSub){ const chip = document.createElement('span'); chip.className = 'chip chip-sub'; chip.textContent = 'deelhabit'; nameSpan.appendChild(chip); }
+    if(h.isChallengegewoonte){ const chip = document.createElement('span'); chip.className = 'chip'; chip.textContent = 'challenge'; nameSpan.appendChild(chip); }
+    if(isSub){ const chip = document.createElement('span'); chip.className = 'chip chip-sub'; chip.textContent = 'deelgewoonte'; nameSpan.appendChild(chip); }
     nameTd.appendChild(nameSpan);
     tr.appendChild(nameTd);
 
@@ -622,7 +622,7 @@
       tr.appendChild(td);
     });
 
-    nameSpan.addEventListener('mouseenter', (e) => showTooltip(e, habitTooltipHtml(h)));
+    nameSpan.addEventListener('mouseenter', (e) => showTooltip(e, gewoonteTooltipHtml(h)));
     nameSpan.addEventListener('mousemove', positionTooltip);
     nameSpan.addEventListener('mouseleave', hideTooltip);
     nameSpan.addEventListener('click', (e) => { e.stopPropagation(); hideTooltip(); closeAllPopovers(); openActionMenu(nameTd, h); });
@@ -634,29 +634,29 @@
     if(!main.checks) main.checks = {};
     main.checks[dayIdx] = checked;
     (main.subIds||[]).forEach(subId => {
-      const sub = findHabit(subId);
+      const sub = findgewoonte(subId);
       if(sub && sub.days.includes(dayIdx)){ if(!sub.checks) sub.checks = {}; sub.checks[dayIdx] = checked; }
     });
-    saveState(); renderHabits();
+    saveState(); rendergewoontes();
   }
   function onSubCheckChange(sub, dayIdx, checked){
     if(!sub.checks) sub.checks = {};
     sub.checks[dayIdx] = checked;
-    const main = findHabit(sub.parentId);
+    const main = findgewoonte(sub.parentId);
     if(main){
-      const siblingSubs = (main.subIds||[]).map(findHabit).filter(s => s && s.days.includes(dayIdx));
+      const siblingSubs = (main.subIds||[]).map(findgewoonte).filter(s => s && s.days.includes(dayIdx));
       const allChecked = siblingSubs.length > 0 && siblingSubs.every(s => s.checks && s.checks[dayIdx]);
       if(!main.checks) main.checks = {};
       main.checks[dayIdx] = allChecked;
     }
-    saveState(); renderHabits();
+    saveState(); rendergewoontes();
   }
 
-  function habitTooltipHtml(h){
+  function gewoonteTooltipHtml(h){
     const scheduled = h.days.length;
     const checkedNow = h.days.filter(d => h.checks && h.checks[d]).length;
     let extra = '';
-    if(!h.isChallengeHabit){
+    if(!h.isChallengegewoonte){
       extra = `<br>Beloning: <b>${fmtMoney(h.reward)}</b>${h.parentId ? ' bij 100% van de week' : ' per volledige week'}`
             + `<br>Totaal verdiend: <b>${fmtMoney(h.totalEarned||0)}</b>`;
     }
@@ -683,27 +683,27 @@
     editBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); openEditModal(h); });
     const delBtn = document.createElement('button');
     delBtn.className = 'danger'; delBtn.textContent = '🗑 Verwijderen';
-    delBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); confirmDeleteHabit(h, anchorTd); });
+    delBtn.addEventListener('click', (e) => { e.stopPropagation(); closeAllPopovers(); confirmDeletegewoonte(h, anchorTd); });
     menu.appendChild(planBtn); menu.appendChild(editBtn); menu.appendChild(delBtn);
     anchorTd.appendChild(menu);
   }
-  function confirmDeleteHabit(h, anchorTd){
+  function confirmDeletegewoonte(h, anchorTd){
     const pop = document.createElement('div');
     pop.className = 'del-pop popover';
-    pop.innerHTML = `<span>${h.subIds && h.subIds.length ? 'Habit + deelhabits weggooien?' : 'Habit weggooien?'}</span>`;
+    pop.innerHTML = `<span>${h.subIds && h.subIds.length ? 'gewoonte + deelgewoontes weggooien?' : 'gewoonte weggooien?'}</span>`;
     const yes = document.createElement('button'); yes.className = 'yes'; yes.textContent = 'Verwijder';
-    yes.addEventListener('click', (e) => { e.stopPropagation(); deleteHabitCascade(h); });
+    yes.addEventListener('click', (e) => { e.stopPropagation(); deletegewoonteCascade(h); });
     const no = document.createElement('button'); no.className = 'no'; no.textContent = 'Annuleer';
     no.addEventListener('click', (e) => { e.stopPropagation(); pop.remove(); });
     pop.appendChild(yes); pop.appendChild(no);
     anchorTd.appendChild(pop);
   }
-  function deleteHabitCascade(h){
+  function deletegewoonteCascade(h){
     let idsToRemove = [h.id];
     if(h.subIds && h.subIds.length) idsToRemove = idsToRemove.concat(h.subIds);
-    if(h.parentId){ const parent = findHabit(h.parentId); if(parent) parent.subIds = (parent.subIds||[]).filter(id => id !== h.id); }
-    state.habits = state.habits.filter(x => !idsToRemove.includes(x.id));
-    saveState(); renderHabits();
+    if(h.parentId){ const parent = findgewoonte(h.parentId); if(parent) parent.subIds = (parent.subIds||[]).filter(id => id !== h.id); }
+    state.gewoontes = state.gewoontes.filter(x => !idsToRemove.includes(x.id));
+    saveState(); rendergewoontes();
   }
   function showStepPlanPopover(anchorTd, h){
     const todayIdx = mondayIndex(new Date());
@@ -762,27 +762,27 @@
   }
 
   // ---------- modals: open/close ----------
-  const overlayHabit = document.getElementById('overlay-habit');
+  const overlaygewoonte = document.getElementById('overlay-gewoonte');
   const overlayEdit = document.getElementById('overlay-edit');
   const overlayChallenge = document.getElementById('overlay-challenge');
   function openOverlay(el){ el.classList.add('open'); }
   function closeOverlay(el){ el.classList.remove('open'); }
   document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeOverlay(document.getElementById(btn.dataset.close))));
-  [overlayHabit, overlayEdit, overlayChallenge].forEach(ov => ov.addEventListener('click', (e) => { if(e.target === ov) closeOverlay(ov); }));
-  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeOverlay(overlayHabit); closeOverlay(overlayEdit); closeOverlay(overlayChallenge); } });
+  [overlaygewoonte, overlayEdit, overlayChallenge].forEach(ov => ov.addEventListener('click', (e) => { if(e.target === ov) closeOverlay(ov); }));
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ closeOverlay(overlaygewoonte); closeOverlay(overlayEdit); closeOverlay(overlayChallenge); } });
 
-  // ---------- new habit modal ----------
-  let habitDayPicker = null;
-  let subHabitBlockPickers = [];
+  // ---------- new gewoonte modal ----------
+  let gewoonteDayPicker = null;
+  let subgewoonteBlockPickers = [];
 
-  function addSubHabitBlock(){
-    const container = document.getElementById('subhabit-blocks');
+  function addSubgewoonteBlock(){
+    const container = document.getElementById('subgewoonte-blocks');
     const block = document.createElement('div');
-    block.className = 'subhabit-block';
+    block.className = 'subgewoonte-block';
 
-    const headerRow = document.createElement('div'); headerRow.className = 'subhabit-block-header';
-    const nameLabel = document.createElement('span'); nameLabel.className = 'mini-label'; nameLabel.textContent = 'Deelhabit';
-    const removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.className = 'subhabit-remove'; removeBtn.textContent = '✕ verwijder';
+    const headerRow = document.createElement('div'); headerRow.className = 'subgewoonte-block-header';
+    const nameLabel = document.createElement('span'); nameLabel.className = 'mini-label'; nameLabel.textContent = 'Deelgewoonte';
+    const removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.className = 'subgewoonte-remove'; removeBtn.textContent = '✕ verwijder';
     headerRow.appendChild(nameLabel); headerRow.appendChild(removeBtn);
     block.appendChild(headerRow);
 
@@ -804,11 +804,11 @@
     rewardField.appendChild(rewardInput);
     block.appendChild(rewardField);
 
-    const picker = buildDayPicker(daysWrap, { subStyle: true, restrictTo: habitDayPicker.selected });
-    subHabitBlockPickers.push(picker);
+    const picker = buildDayPicker(daysWrap, { subStyle: true, restrictTo: gewoonteDayPicker.selected });
+    subgewoonteBlockPickers.push(picker);
 
     removeBtn.addEventListener('click', () => {
-      subHabitBlockPickers = subHabitBlockPickers.filter(p => p !== picker);
+      subgewoonteBlockPickers = subgewoonteBlockPickers.filter(p => p !== picker);
       block.remove();
     });
 
@@ -816,64 +816,64 @@
     container.appendChild(block);
   }
 
-  document.getElementById('btn-new-habit').addEventListener('click', () => {
-    document.getElementById('form-habit').reset();
-    document.getElementById('habit-error').classList.remove('show');
-    document.getElementById('habit-reward').value = '1.00';
-    document.getElementById('habit-add-subs').checked = false;
-    document.getElementById('subhabit-fieldset').classList.remove('open');
-    document.getElementById('subhabit-blocks').innerHTML = '';
-    subHabitBlockPickers = [];
-    habitDayPicker = buildDayPicker(document.getElementById('habit-days-picker'), {
-      onChange: (sel) => subHabitBlockPickers.forEach(p => p.refreshRestrict(sel))
+  document.getElementById('btn-new-gewoonte').addEventListener('click', () => {
+    document.getElementById('form-gewoonte').reset();
+    document.getElementById('gewoonte-error').classList.remove('show');
+    document.getElementById('gewoonte-reward').value = '1.00';
+    document.getElementById('gewoonte-add-subs').checked = false;
+    document.getElementById('subgewoonte-fieldset').classList.remove('open');
+    document.getElementById('subgewoonte-blocks').innerHTML = '';
+    subgewoonteBlockPickers = [];
+    gewoonteDayPicker = buildDayPicker(document.getElementById('gewoonte-days-picker'), {
+      onChange: (sel) => subgewoonteBlockPickers.forEach(p => p.refreshRestrict(sel))
     });
-    openOverlay(overlayHabit);
-    setTimeout(() => document.getElementById('habit-name').focus(), 50);
+    openOverlay(overlaygewoonte);
+    setTimeout(() => document.getElementById('gewoonte-name').focus(), 50);
   });
 
-  document.getElementById('habit-add-subs').addEventListener('change', (e) => {
-    document.getElementById('subhabit-fieldset').classList.toggle('open', e.target.checked);
+  document.getElementById('gewoonte-add-subs').addEventListener('change', (e) => {
+    document.getElementById('subgewoonte-fieldset').classList.toggle('open', e.target.checked);
   });
-  document.getElementById('btn-add-subhabit').addEventListener('click', () => addSubHabitBlock());
+  document.getElementById('btn-add-subgewoonte').addEventListener('click', () => addSubgewoonteBlock());
 
-  document.getElementById('form-habit').addEventListener('submit', (e) => {
+  document.getElementById('form-gewoonte').addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('habit-name').value.trim();
-    const reward = parseFloat(document.getElementById('habit-reward').value) || 0;
-    const days = Array.from(habitDayPicker.selected).sort((a,b)=>a-b);
-    const errorEl = document.getElementById('habit-error');
+    const name = document.getElementById('gewoonte-name').value.trim();
+    const reward = parseFloat(document.getElementById('gewoonte-reward').value) || 0;
+    const days = Array.from(gewoonteDayPicker.selected).sort((a,b)=>a-b);
+    const errorEl = document.getElementById('gewoonte-error');
     if(!name || days.length === 0){ errorEl.classList.add('show'); return; }
     errorEl.classList.remove('show');
 
     const mainId = uid();
     const subIds = [];
-    if(document.getElementById('habit-add-subs').checked){
-      document.querySelectorAll('#subhabit-blocks .subhabit-block').forEach(block => {
+    if(document.getElementById('gewoonte-add-subs').checked){
+      document.querySelectorAll('#subgewoonte-blocks .subgewoonte-block').forEach(block => {
         const refs = block.__refs;
         const subName = refs.nameInput.value.trim();
         const subDays = Array.from(refs.picker.selected).sort((a,b)=>a-b);
         const subReward = parseFloat(refs.rewardInput.value) || 0;
         if(subName && subDays.length){
           const subId = uid();
-          state.habits.push({
+          state.gewoontes.push({
             id: subId, name: subName, days: subDays, reward: subReward, checks: {},
-            isChallengeHabit: false, challengeId: null, parentId: mainId, subIds: [], stepPlans: {},
+            isChallengegewoonte: false, challengeId: null, parentId: mainId, subIds: [], stepPlans: {},
             totalScheduled: 0, totalChecked: 0, totalEarned: 0
           });
           subIds.push(subId);
         }
       });
     }
-    state.habits.push({
-      id: mainId, name, days, reward, checks: {}, isChallengeHabit: false, challengeId: null,
+    state.gewoontes.push({
+      id: mainId, name, days, reward, checks: {}, isChallengegewoonte: false, challengeId: null,
       parentId: null, subIds, stepPlans: {}, collapsed: false,
       totalScheduled: 0, totalChecked: 0, totalEarned: 0
     });
-    saveState(); renderHabits(); closeOverlay(overlayHabit);
+    saveState(); rendergewoontes(); closeOverlay(overlaygewoonte);
   });
 
-  // ---------- edit habit modal ----------
-  let editingHabitId = null;
+  // ---------- edit gewoonte modal ----------
+  let editinggewoonteId = null;
   let editDaysPicker = null;
 
   function buildEditStepPlanRows(){
@@ -894,18 +894,18 @@
   }
 
   function openEditModal(h){
-    editingHabitId = h.id;
+    editinggewoonteId = h.id;
     document.getElementById('edit-name').value = h.name;
-    document.getElementById('edit-modal-sub').textContent = h.isChallengeHabit
-      ? 'Challenge-habit — verdient geen geld.'
-      : (h.parentId ? 'Deelhabit — dagen moeten binnen de hoofdhabit vallen.' : 'Pas naam, dagen, beloning en stappenplan aan.');
+    document.getElementById('edit-modal-sub').textContent = h.isChallengegewoonte
+      ? 'Challenge-gewoonte — verdient geen geld.'
+      : (h.parentId ? 'Deelgewoonte — dagen moeten binnen de hoofdgewoonte vallen.' : 'Pas naam, dagen, beloning en stappenplan aan.');
 
     const rewardField = document.getElementById('edit-reward-field');
-    if(h.isChallengeHabit){ rewardField.style.display = 'none'; }
+    if(h.isChallengegewoonte){ rewardField.style.display = 'none'; }
     else { rewardField.style.display = 'block'; document.getElementById('edit-reward').value = h.reward; }
 
     let restrictTo = null;
-    if(h.parentId){ const parent = findHabit(h.parentId); if(parent) restrictTo = new Set(parent.days); }
+    if(h.parentId){ const parent = findgewoonte(h.parentId); if(parent) restrictTo = new Set(parent.days); }
 
     buildEditStepPlanRows();
     editDaysPicker = buildDayPicker(document.getElementById('edit-days-picker'), {
@@ -923,7 +923,7 @@
 
   document.getElementById('form-edit').addEventListener('submit', (e) => {
     e.preventDefault();
-    const h = findHabit(editingHabitId);
+    const h = findgewoonte(editinggewoonteId);
     if(!h) return;
     const name = document.getElementById('edit-name').value.trim();
     const days = Array.from(editDaysPicker.selected).sort((a,b)=>a-b);
@@ -933,7 +933,7 @@
 
     h.name = name;
     h.days = days;
-    if(!h.isChallengeHabit) h.reward = parseFloat(document.getElementById('edit-reward').value) || 0;
+    if(!h.isChallengegewoonte) h.reward = parseFloat(document.getElementById('edit-reward').value) || 0;
 
     const newStepPlans = {};
     days.forEach(idx => {
@@ -947,7 +947,7 @@
 
     if(h.subIds && h.subIds.length){
       h.subIds.forEach(subId => {
-        const sub = findHabit(subId);
+        const sub = findgewoonte(subId);
         if(sub){
           const filtered = sub.days.filter(d => days.includes(d));
           if(filtered.length !== sub.days.length){
@@ -957,7 +957,7 @@
         }
       });
     }
-    saveState(); renderHabits(); closeOverlay(overlayEdit);
+    saveState(); rendergewoontes(); closeOverlay(overlayEdit);
   });
 
   // ---------- challenges ----------
@@ -997,8 +997,8 @@
       trash.className = 'trash-btn'; trash.type = 'button'; trash.title = 'Challenge verwijderen'; trash.textContent = '🗑';
       trash.addEventListener('click', () => {
         state.challenges = state.challenges.filter(x => x.id !== c.id);
-        if(c.linkedHabitId) state.habits = state.habits.filter(h => h.id !== c.linkedHabitId);
-        saveState(); renderChallenges(); renderHabits();
+        if(c.linkedgewoonteId) state.gewoontes = state.gewoontes.filter(h => h.id !== c.linkedgewoonteId);
+        saveState(); renderChallenges(); rendergewoontes();
       });
       actions.appendChild(cb); actions.appendChild(trash);
       row.appendChild(actions);
@@ -1006,21 +1006,21 @@
     });
   }
 
-  let chHabitDaySelectionPicker = null;
+  let chgewoonteDaySelectionPicker = null;
   document.getElementById('btn-new-challenge').addEventListener('click', () => {
     document.getElementById('form-challenge').reset();
     document.getElementById('challenge-error').classList.remove('show');
     document.getElementById('challenge-start').value = isoDate(new Date());
     document.getElementById('challenge-days').value = '30';
     document.getElementById('challenge-reward').value = '5.00';
-    document.getElementById('challenge-add-habit').checked = false;
-    document.getElementById('challenge-habit-fieldset').classList.remove('open');
-    chHabitDaySelectionPicker = buildDayPicker(document.getElementById('ch-habit-days-picker'), { subStyle: true });
+    document.getElementById('challenge-add-gewoonte').checked = false;
+    document.getElementById('challenge-gewoonte-fieldset').classList.remove('open');
+    chgewoonteDaySelectionPicker = buildDayPicker(document.getElementById('ch-gewoonte-days-picker'), { subStyle: true });
     openOverlay(overlayChallenge);
     setTimeout(() => document.getElementById('challenge-goal').focus(), 50);
   });
-  document.getElementById('challenge-add-habit').addEventListener('change', (e) => {
-    document.getElementById('challenge-habit-fieldset').classList.toggle('open', e.target.checked);
+  document.getElementById('challenge-add-gewoonte').addEventListener('change', (e) => {
+    document.getElementById('challenge-gewoonte-fieldset').classList.toggle('open', e.target.checked);
   });
 
   document.getElementById('form-challenge').addEventListener('submit', (e) => {
@@ -1029,27 +1029,27 @@
     const goal = document.getElementById('challenge-goal').value.trim();
     const days = parseInt(document.getElementById('challenge-days').value, 10);
     const reward = parseFloat(document.getElementById('challenge-reward').value) || 0;
-    const addHabit = document.getElementById('challenge-add-habit').checked;
-    const chName = document.getElementById('ch-habit-name').value.trim();
-    const chDays = Array.from(chHabitDaySelectionPicker.selected).sort((a,b)=>a-b);
+    const addgewoonte = document.getElementById('challenge-add-gewoonte').checked;
+    const chName = document.getElementById('ch-gewoonte-name').value.trim();
+    const chDays = Array.from(chgewoonteDaySelectionPicker.selected).sort((a,b)=>a-b);
     const errorEl = document.getElementById('challenge-error');
 
     if(!goal || !days || days < 1){ errorEl.textContent = 'Vul een doel in en een geldig aantal dagen.'; errorEl.classList.add('show'); return; }
-    if(addHabit && (!chName || chDays.length === 0)){ errorEl.textContent = 'Vul een naam en minstens één dag in voor de challenge-habit.'; errorEl.classList.add('show'); return; }
+    if(addgewoonte && (!chName || chDays.length === 0)){ errorEl.textContent = 'Vul een naam en minstens één dag in voor de challenge-gewoonte.'; errorEl.classList.add('show'); return; }
     errorEl.classList.remove('show');
 
     const challengeId = uid();
-    let linkedHabitId = null;
-    if(addHabit){
-      linkedHabitId = uid();
-      state.habits.push({
-        id: linkedHabitId, name: chName, days: chDays, reward: 0, checks: {},
-        isChallengeHabit: true, challengeId, parentId: null, subIds: [], stepPlans: {},
+    let linkedgewoonteId = null;
+    if(addgewoonte){
+      linkedgewoonteId = uid();
+      state.gewoontes.push({
+        id: linkedgewoonteId, name: chName, days: chDays, reward: 0, checks: {},
+        isChallengegewoonte: true, challengeId, parentId: null, subIds: [], stepPlans: {},
         totalScheduled: 0, totalChecked: 0, totalEarned: 0
       });
     }
-    state.challenges.push({ id: challengeId, startDate, goal, days, endDate: addDays(startDate, days), reward, completed: false, linkedHabitId });
-    saveState(); renderChallenges(); renderHabits(); closeOverlay(overlayChallenge);
+    state.challenges.push({ id: challengeId, startDate, goal, days, endDate: addDays(startDate, days), reward, completed: false, linkedgewoonteId });
+    saveState(); renderChallenges(); rendergewoontes(); closeOverlay(overlayChallenge);
   });
 
   // ---------- offline support (PWA) ----------
@@ -1064,9 +1064,9 @@
     await loadState();
     processWeekRollover();
     renderMoney(false);
-    renderHabits();
+    rendergewoontes();
     renderChallenges();
-    setInterval(() => { processWeekRollover(); renderMoney(true); renderHabits(); renderChallenges(); }, 60 * 60 * 1000);
+    setInterval(() => { processWeekRollover(); renderMoney(true); rendergewoontes(); renderChallenges(); }, 60 * 60 * 1000);
   }
   init();
 })();

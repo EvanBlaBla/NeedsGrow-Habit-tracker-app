@@ -1,7 +1,7 @@
 {
-  "name": "Kasboek — Habit Tracker",
+  "name": "Kasboek — gewoonte Tracker",
   "short_name": "Kasboek",
-  "description": "Wekelijkse habit tracker met beloningen en challenges",
+  "description": "Wekelijkse gewoonte tracker met beloningen en challenges",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
