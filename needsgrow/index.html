@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>NeedsGrow</title>
+<meta name="theme-color" content="#F6F0EE">
+
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/topbar-navbar.css">
+<link rel="stylesheet" href="css/habits.css">
+<link rel="stylesheet" href="css/overlays.css">
+</head>
+<body>
+
+<!-- ============ TOPBAR ============ -->
+<header class="topbar">
+  <img class="topbar-logo" id="topbar-logo" src="assets/icons/needs/needs-logo.png" alt="Grow">
+  <h1 class="topbar-title" data-i18n="app.name">NeedsGrow</h1>
+  <button class="icon-btn topbar-stats-btn" id="btn-stats" aria-label="Statistieken">
+    <!-- placeholder icon -->
+    <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+  </button>
+</header>
+
+<!-- ============ TAB CONTENT ============ -->
+<main class="tab-content">
+
+  <!-- ---- HABITS TAB ---- -->
+  <section class="tab-pane" id="tab-habits" data-tab="habits">
+    <div class="tab-header">
+      <h2 data-i18n="habits.title">Gewoontes</h2>
+      <div class="view-switch" id="habits-view-switch">
+        <button class="view-switch-btn" data-view="today" data-i18n="habits.view.today">Vandaag</button>
+        <button class="view-switch-btn" data-view="threeday" data-i18n="habits.view.threeday">3 dagen</button>
+        <button class="view-switch-btn active" data-view="week" data-i18n="habits.view.week">Week</button>
+      </div>
+    </div>
+
+    <div class="week-nav" id="week-nav" style="display:none;">
+      <button class="icon-btn" id="week-prev" aria-label="Vorige week">‹</button>
+      <span id="week-nav-label" class="week-nav-label"></span>
+      <button class="icon-btn" id="week-next" aria-label="Volgende week">›</button>
+    </div>
+
+    <div id="habits-view-root"></div>
+
+    <div class="empty-state" id="habits-empty" style="display:none;">
+      <span class="icon">🌱</span>
+      <p data-i18n="habits.empty">Nog geen gewoontes. Tik op + om te beginnen.</p>
+    </div>
+  </section>
+
+  <!-- ---- CHALLENGES TAB (placeholder — volgt in volgende stap) ---- -->
+  <section class="tab-pane" id="tab-challenges" data-tab="challenges" hidden>
+    <div class="tab-header">
+      <h2 data-i18n="challenges.title">Challenges</h2>
+    </div>
+    <div class="empty-state">
+      <span class="icon">🚧</span>
+      <p>Challenges-tab volgt in de volgende bouwstap.</p>
+    </div>
+  </section>
+
+  <!-- ---- PROFIEL / INSTELLINGEN TAB (placeholder — volgt in volgende stap) ---- -->
+  <section class="tab-pane" id="tab-profile" data-tab="profile" hidden>
+    <div class="tab-header">
+      <h2 data-i18n="profile.title">Instellingen</h2>
+    </div>
+    <div class="empty-state">
+      <span class="icon">🚧</span>
+      <p>Instellingenscherm volgt in de volgende bouwstap. Dark mode kun je hieronder alvast testen.</p>
+    </div>
+    <button class="btn-plain" id="btn-quick-dark-toggle" style="margin:16px auto;display:block;">Wissel dark mode (tijdelijke testknop)</button>
+    <button class="btn-plain" id="btn-quick-random-theme" style="margin:16px auto;display:block;">Wissel kleurenthema (standaard/random)</button>
+  </section>
+
+</main>
+
+<!-- ============ FLOATING ADD BUTTON ============ -->
+<button class="fab" id="btn-add-habit" aria-label="Nieuwe gewoonte" hidden>
+  <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+</button>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar">
+  <div class="navbar-bg-fade"></div>
+  <div class="navbar-bar">
+    <button class="nav-btn active" data-tab="habits" aria-label="Habits">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </button>
+    <button class="nav-btn" data-tab="challenges" aria-label="Challenges">
+      <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2.2" fill="none"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg>
+    </button>
+    <button class="nav-btn nav-btn-brand" aria-label="Needs">
+      <img src="assets/icons/needs/needs-logo.png" alt="Needs" width="22" height="22">
+    </button>
+    <button class="nav-btn" data-tab="feedback" aria-label="Feedback">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 5h16v11H8l-4 4z" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" fill="none"/></svg>
+    </button>
+    <button class="nav-btn" data-tab="profile" aria-label="Profiel">
+      <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="2.1" fill="none"/><path d="M5 20c1.2-3.8 4.2-5.6 7-5.6s5.8 1.8 7 5.6" stroke="currentColor" stroke-width="2.1" fill="none" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ OVERLAY: gewoonte toevoegen/bewerken ============ -->
+<div class="overlay-fullscreen" id="overlay-habit-form">
+  <div class="overlay-header">
+    <button class="icon-btn" data-close="overlay-habit-form" aria-label="Terug">‹</button>
+    <h3 id="habit-form-title" data-i18n="habits.add.title">Nieuwe gewoonte</h3>
+    <span class="overlay-header-spacer"></span>
+  </div>
+  <div class="overlay-body">
+    <form id="form-habit">
+      <div class="field">
+        <label for="habit-name" data-i18n="habits.add.name">Naam</label>
+        <input type="text" id="habit-name" required maxlength="60" placeholder="Bijv. Ochtendroutine">
+      </div>
+      <div class="field">
+        <label data-i18n="habits.add.days">Dagen</label>
+        <div class="days-picker" id="habit-days-picker"></div>
+      </div>
+      <div class="toggle-row">
+        <label data-i18n="habits.add.addSubs">Deelgewoontes toevoegen</label>
+        <label class="switch">
+          <input type="checkbox" id="habit-add-subs">
+          <span class="switch-track"></span>
+        </label>
+      </div>
+      <div id="subhabit-blocks"></div>
+      <button type="button" class="btn-plain" id="btn-add-subhabit" style="display:none;" data-i18n="habits.add.addSubBtn">+ Voeg deelgewoonte toe</button>
+
+      <div class="error-msg" id="habit-form-error" data-i18n="habits.add.error">Vul een naam in en kies minstens één dag.</div>
+      <div class="overlay-actions">
+        <button type="submit" class="btn btn-accent" data-i18n="common.save">Opslaan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ OVERLAY: gewoonte detail / statistieken ============ -->
+<div class="overlay-fullscreen" id="overlay-habit-detail">
+  <div class="overlay-header">
+    <button class="icon-btn" data-close="overlay-habit-detail" aria-label="Terug">‹</button>
+    <h3 id="detail-habit-name">Gewoonte</h3>
+    <button class="icon-btn" id="btn-detail-menu" aria-label="Meer opties">⋮</button>
+  </div>
+  <div class="overlay-body" id="detail-body">
+    <div class="detail-menu popover" id="detail-menu" hidden>
+      <button id="detail-menu-edit" data-i18n="common.edit">✏️ Bewerken</button>
+      <button id="detail-menu-delete" class="danger" data-i18n="common.delete">🗑 Verwijderen</button>
+    </div>
+
+    <div class="month-nav">
+      <button class="icon-btn" id="month-prev">‹</button>
+      <span id="month-label"></span>
+      <button class="icon-btn" id="month-next">›</button>
+    </div>
+    <div class="month-calendar" id="month-calendar"></div>
+
+    <div class="stats-grid" id="stats-grid"></div>
+  </div>
+</div>
+
+<script src="js/state.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/habits.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

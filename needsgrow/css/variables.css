@@ -1,0 +1,100 @@
+/*
+  Fonts: Concert One (titels/appnaam) + Encode Sans Semi Expanded (overige tekst).
+  Spec vraagt om deze lokaal te bundelen i.p.v. via CDN te laden.
+  -> Download de woff2-bestanden en plaats ze in assets/fonts/, met deze namen
+     (of pas de src-paden hieronder aan):
+       assets/fonts/ConcertOne-Regular.woff2
+       assets/fonts/EncodeSansSemiExpanded-Regular.woff2
+       assets/fonts/EncodeSansSemiExpanded-Medium.woff2
+       assets/fonts/EncodeSansSemiExpanded-SemiBold.woff2
+       assets/fonts/EncodeSansSemiExpanded-Bold.woff2
+  Zolang die bestanden er niet zijn vallen de fonts terug op de system-fallbacks
+  hieronder, zodat de app ondertussen gewoon bruikbaar/leesbaar blijft.
+*/
+@font-face{
+  font-family: 'Concert One';
+  src: url('../assets/fonts/ConcertOne-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face{
+  font-family: 'Encode Sans Semi Expanded';
+  src: url('../assets/fonts/EncodeSansSemiExpanded-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face{
+  font-family: 'Encode Sans Semi Expanded';
+  src: url('../assets/fonts/EncodeSansSemiExpanded-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face{
+  font-family: 'Encode Sans Semi Expanded';
+  src: url('../assets/fonts/EncodeSansSemiExpanded-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face{
+  font-family: 'Encode Sans Semi Expanded';
+  src: url('../assets/fonts/EncodeSansSemiExpanded-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root{
+  --font-title: 'Concert One', ui-rounded, 'Segoe UI', sans-serif;
+  --font-body: 'Encode Sans Semi Expanded', 'Segoe UI', sans-serif;
+
+  /* ---- Grow (app-accent) — uit kleurenpalet, "standaard" thema ---- */
+  --accent: #FF5858;
+  --accent-soft: #FFA3A3;
+  --accent-tint: #FFF0ED;
+  --accent-alert: #C6A3FF;
+
+  /* ---- Needs (merk-elementen, bv. needs-logo in navbar) ---- */
+  --brand-primary: #2E221C;
+  --brand-secondary: #8B8B8B;
+  --brand-tertiary: #E0E0E0;
+
+  /* ---- Light mode achtergrond/tekst (default) ---- */
+  --bg: #F6F0EE;
+  --bg-raised: #FFFBFA;
+  --ink: #2E221C;
+  --ink-soft: #8B8B8B;
+  --line: #E0E0E0;
+  --shadow: 0 4px 18px rgba(46,34,28,0.10);
+
+  /* rollen die per habit-type verschillen, gekoppeld aan het actieve thema */
+  --sub-habit-color: var(--accent-soft);
+  --challenge-habit-color: var(--accent-alert);
+
+  /* status (mogen buiten het palet vallen, zie projectbrief §8) */
+  --status-success: #3FA66B;
+  --status-fail: #D9534F;
+
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+}
+
+/* ---- Dark mode ---- */
+html.dark{
+  --bg: #2E221C;
+  --bg-raised: #544B47;
+  --ink: #F6F0EE;
+  --ink-soft: #C9BEB9;
+  --line: #6B5F59;
+  --shadow: 0 4px 18px rgba(0,0,0,0.35);
+  --accent-tint: rgba(255,88,88,0.16);
+}
+
+/* ---- Kleurenthema "random" (waarden worden runtime via JS overschreven,
+        dit zijn alleen fallback-defaults) ---- */
+html.theme-random{
+  --accent: #7C5CFF;
+  --accent-soft: #B8A6FF;
+  --accent-tint: #EFE9FF;
+  --sub-habit-color: var(--accent-soft);
+  --challenge-habit-color: #FFB84C;
+}

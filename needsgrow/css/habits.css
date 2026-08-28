@@ -1,0 +1,80 @@
+.week-nav{ display:flex; align-items:center; justify-content:center; gap:14px; padding: 4px 0 10px; }
+.week-nav-label{ font-size:0.85rem; font-weight:600; color: var(--ink-soft); }
+
+.habit-list{ background: var(--bg-raised); border-radius: var(--radius-m); overflow:hidden; box-shadow: var(--shadow); }
+.habit-row{
+  display:flex; align-items:center; gap:10px; padding: 14px 16px; border-bottom:1px solid var(--line);
+}
+.habit-row:last-child{ border-bottom:none; }
+.habit-row.is-sub{ background: color-mix(in srgb, var(--sub-habit-color) 12%, var(--bg-raised)); padding-left: 40px; }
+.habit-row.is-challenge{ background: color-mix(in srgb, var(--challenge-habit-color) 12%, var(--bg-raised)); }
+
+.habit-expand{ width:18px; flex-shrink:0; color: var(--ink-soft); font-size:0.7rem; }
+.habit-name-wrap{ flex:1; min-width:0; display:flex; align-items:center; gap:8px; }
+.habit-name{
+  font-weight:600; font-size:0.96rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.habit-tag{
+  font-size:0.6rem; font-weight:700; text-transform:uppercase; padding:2px 6px; border-radius:5px; color:#fff; flex-shrink:0;
+}
+.habit-tag.sub{ background: var(--sub-habit-color); }
+.habit-tag.challenge{ background: var(--challenge-habit-color); }
+
+/* checkbox (gedeeld door alle weergaven) */
+.check{
+  appearance:none; -webkit-appearance:none; border-radius:8px; border:2px solid var(--line);
+  background: var(--bg); cursor:pointer; position:relative; flex-shrink:0;
+}
+.check:checked{ border-color: var(--accent); background: var(--accent); }
+.check:checked::after{
+  content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:0.9em; font-weight:700;
+}
+.check:disabled{ opacity:0.3; cursor:not-allowed; }
+.check-off{ color: var(--line); font-size:1.1rem; flex-shrink:0; text-align:center; }
+
+/* ---- vandaag-weergave ---- */
+.today-check{ width:30px; height:30px; }
+
+/* ---- 3-dagen-weergave ---- */
+.threeday-cells{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.threeday-cell{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+.threeday-cell .lbl{ font-size:0.62rem; color: var(--ink-soft); text-transform:uppercase; }
+.threeday-cell.adjacent{ opacity:0.5; transform: scale(0.85); }
+.threeday-cell.adjacent .check{ width:24px; height:24px; }
+.threeday-cell.today .check{ width:32px; height:32px; }
+
+/* ---- weekweergave ---- */
+.week-header-row{ display:flex; padding: 0 16px 6px; }
+.week-header-row .name-spacer{ flex:1; }
+.week-header-row .day-abbr{
+  width:32px; text-align:center; font-size:0.65rem; font-weight:700; color: var(--ink-soft); text-transform:uppercase;
+}
+.habit-row.week-row .habit-name-wrap{ max-width: 46%; }
+.week-days{ display:flex; margin-left:auto; }
+.week-days .check-cell{ width:32px; display:flex; align-items:center; justify-content:center; }
+.week-days .check{ width:26px; height:26px; }
+
+/* ---- detail/statistiek overlay ---- */
+.month-nav{ display:flex; align-items:center; justify-content:center; gap:16px; margin: 6px 0 12px; }
+#month-label{ font-weight:600; }
+.month-calendar{ display:grid; grid-template-columns: repeat(7,1fr); gap:6px; margin-bottom: 24px; }
+.month-day{
+  aspect-ratio:1; border-radius: var(--radius-s); display:flex; align-items:center; justify-content:center;
+  font-size:0.78rem; color: var(--ink-soft); background: var(--bg-raised);
+}
+.month-day.scheduled{ background: var(--accent-tint); color: var(--ink); }
+.month-day.done{ background: var(--accent); color:#fff; font-weight:700; }
+.month-day.empty{ background: transparent; }
+.month-day.future{ opacity:0.4; }
+
+.stats-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card{ background: var(--bg-raised); border-radius: var(--radius-m); padding: 16px; box-shadow: var(--shadow); }
+.stat-card .stat-value{ font-family: var(--font-title); font-size:1.6rem; color: var(--accent); }
+.stat-card .stat-label{ font-size:0.75rem; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em; }
+
+.subhabit-block{ background: var(--bg-raised); border:1px solid var(--sub-habit-color); border-radius: var(--radius-s); padding:12px; margin-bottom:10px; }
+.subhabit-block-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.subhabit-block-header .mini-label{ font-size:0.7rem; font-weight:700; color: var(--sub-habit-color); text-transform:uppercase; }
+.subhabit-remove{ color: var(--status-fail); font-size:0.85rem; }
+.subhabit-block input[type=text]{ width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--bg); margin-bottom:8px; }

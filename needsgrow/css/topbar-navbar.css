@@ -1,0 +1,43 @@
+/* ============ TOPBAR ============ */
+.topbar{
+  display:flex; align-items:center; gap:12px;
+  background: var(--bg); /* zelfde als pagina-achtergrond, geen aparte kleur/schaduw */
+  padding: 14px 18px; padding-top: calc(14px + env(safe-area-inset-top));
+  position: sticky; top:0; z-index: 30;
+}
+.topbar-logo{ height:28px; width:auto; display:block; }
+.topbar-title{ font-size:1.15rem; color: var(--ink); flex:1; }
+.topbar-stats-btn{ margin-left:auto; }
+
+/* ============ NAVBAR (zwevend) ============ */
+.navbar{
+  position: fixed; left:0; right:0; bottom:0; z-index: 40;
+  padding: 0 14px calc(14px + env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+.navbar-bg-fade{
+  position:absolute; left:0; right:0; bottom:0; height: 90px;
+  background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
+  pointer-events:none; z-index:-1;
+}
+.navbar-bar{
+  pointer-events:auto;
+  display:flex; align-items:center; justify-content:space-between;
+  background: var(--bg-raised); border-radius: 999px; box-shadow: var(--shadow);
+  padding: 8px 10px;
+}
+.nav-btn{
+  flex:1; display:flex; align-items:center; justify-content:center; height:44px; border-radius:999px;
+  color: var(--ink-soft);
+}
+.nav-btn.active{ color: var(--accent); }
+.nav-btn:active{ background: var(--bg); }
+.nav-btn-brand img{ border-radius:50%; }
+
+/* ============ FLOATING ADD BUTTON ============ */
+.fab{
+  position: fixed; right: 20px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 35;
+  width:58px; height:58px; border-radius:50%; background: var(--accent); color:#fff;
+  display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow);
+}
+.fab:active{ filter: brightness(0.95); }
