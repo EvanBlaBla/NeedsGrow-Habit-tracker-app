@@ -4,11 +4,18 @@
   const habitFab = document.getElementById('btn-add-habit');
   const challengeFab = document.getElementById('btn-add-challenge');
 
+  function syncFabVisibility(tabName){
+    const activeTab = tabName || global.NeedsGrowNav?.currentTab || 'habits';
+    habitFab.style.display = (activeTab === 'habits') ? 'flex' : 'none';
+    challengeFab.style.display = (activeTab === 'challenges') ? 'flex' : 'none';
+    habitFab.hidden = false;
+    challengeFab.hidden = false;
+  }
+
   function goToTab(tabName){
     panes.forEach(p => p.hidden = (p.dataset.tab !== tabName));
     navBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
-    habitFab.hidden = (tabName !== 'habits');
-    challengeFab.hidden = (tabName !== 'challenges');
+    syncFabVisibility(tabName);
     global.NeedsGrowNav.currentTab = tabName;
   }
 
@@ -43,4 +50,5 @@
   });
 
   global.NeedsGrowNav = { goToTab, openOverlay, closeOverlay, currentTab: 'habits' };
+  syncFabVisibility('habits');
 })(window);

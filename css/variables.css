@@ -1,4 +1,4 @@
-/*
+/* 
   Fonts: Concert One (titels/appnaam) + Encode Sans Semi Expanded (overige tekst).
   Spec vraagt om deze lokaal te bundelen i.p.v. via CDN te laden.
   -> Download de woff2-bestanden en plaats ze in assets/fonts/, met deze namen
@@ -9,8 +9,8 @@
        assets/fonts/EncodeSansSemiExpanded-SemiBold.woff2
        assets/fonts/EncodeSansSemiExpanded-Bold.woff2
   Zolang die bestanden er niet zijn vallen de fonts terug op de system-fallbacks
-  hieronder, zodat de app ondertussen gewoon bruikbaar/leesbaar blijft.
-*/
+  hieronder, zodat de app ondertussen gewoon bruikbaar/leesbaar blijft. */
+
 @font-face{
   font-family: 'Concert One';
   src: url('../assets/fonts/ConcertOne-Regular.woff2') format('woff2');

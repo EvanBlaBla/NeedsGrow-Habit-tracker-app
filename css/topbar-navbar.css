@@ -42,4 +42,6 @@
   width:58px; height:58px; border-radius:50%; background: var(--accent); color:#fff;
   display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow);
 }
+.fab[hidden]{ display:none !important; }
+
 .fab:active{ filter: brightness(0.95); }
