@@ -17,7 +17,7 @@
 }
 .navbar-bg-fade{
   position:absolute; left:0; right:0; bottom:0; height: 90px;
-  background: linear-gradient(to top, var(--bg) 20%, transparent 100%);
+  background: linear-gradient(to top, var(--bg) 80%, transparent 100%);
   pointer-events:none; z-index:-1;
 }
 .navbar-bar{
@@ -26,12 +26,13 @@
   background: var(--bg-raised); border-radius: 999px; box-shadow: var(--shadow);
   padding: 8px 10px;
 }
-.nav-btn{
+.nav-btn, .nav-needs-btn{
   flex:1; display:flex; align-items:center; justify-content:center; height:44px; border-radius:999px;
   color: var(--ink-soft);
 }
 .nav-btn.active{ color: var(--accent); }
 .nav-btn:active{ background: var(--bg); }
+.nav-needs-btn:active{ transform: translateY(1px); transition-duration: 5ms;}
 .nav-btn-brand img{ border-radius:50%; }
 
 /* ============ FLOATING ADD BUTTON ============ */

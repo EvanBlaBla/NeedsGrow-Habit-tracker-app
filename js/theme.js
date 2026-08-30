@@ -19,8 +19,8 @@
     if(logo){
       // simpel logo: zwart in light mode, wit in dark mode (voor voldoende contrast)
       logo.src = isDarkActive()
-        ? 'assets/logos/grow-logo-white.png'
-        : 'assets/logos/grow-logo-black.png';
+        ? 'assets/icons/grow/grow-logo-white.png'
+        : 'assets/icons/grow/grow-logo-black.png';
     }
     const themeColorMeta = document.querySelector('meta[name=theme-color]');
     if(themeColorMeta) themeColorMeta.setAttribute('content', getComputedStyle(html).getPropertyValue('--bg').trim());
