@@ -1,0 +1,91 @@
+.week-nav{ display:flex; align-items:center; justify-content:center; gap:14px; padding: 4px 0 10px; }
+.week-nav-label{ font-size:0.85rem; font-weight:600; color: var(--ink-soft); }
+
+/* ================= gedeelde lijst/rij-opbouw (alle 3 weergaven) ================= */
+.day-scroll-area{ position:relative; background: var(--bg-raised); border-radius: var(--radius-m); box-shadow: var(--shadow); overflow:hidden; }
+.today-highlight{
+  position:absolute; top:4px; bottom:4px; z-index:0; pointer-events:none;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--radius-s);
+  transition: right 0.2s ease, width 0.2s ease, opacity 0.15s ease;
+}
+.today-highlight.no-anim{ transition:none; }
+.today-highlight.hidden{ opacity:0; }
+
+.day-header-row{ display:flex; align-items:center; padding: 10px 12px 8px; position:relative; z-index:1; }
+.day-header-row .name-col-spacer{ flex:1; min-width:0; }
+.day-strip-header{ position:relative; flex-shrink:0; height: 30px; }
+.day-abbr-cell{
+  position:absolute; top:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-size:0.65rem; font-weight:700; color: var(--ink-soft); text-transform:uppercase; line-height:1.3;
+}
+.day-abbr-cell .num{ font-size:0.62rem; font-weight:600; opacity:0.75; }
+
+.habit-list{ position:relative; z-index:1; }
+.habit-row-grid{
+  display:flex; align-items:center; padding: 13px 12px; border-bottom:1px solid var(--line); position:relative;
+}
+.habit-row-grid:last-child{ border-bottom:none; }
+.habit-row-grid.is-sub{ background: color-mix(in srgb, var(--sub-habit-color) 12%, transparent); }
+.habit-row-grid.is-challenge{ background: color-mix(in srgb, var(--challenge-habit-color) 12%, transparent); }
+
+.habit-expand{ width:16px; flex-shrink:0; color: var(--ink-soft); font-size:0.68rem; margin-right:2px; }
+.habit-name-col{ flex:1; min-width:0; margin-right:10px; overflow:hidden; cursor:pointer; }
+.habit-name-col .habit-name-wrap{ display:flex; align-items:center; gap:6px; overflow:hidden; white-space:nowrap; }
+.habit-name-col .habit-name{
+  font-weight:600; font-size:0.94rem; white-space:nowrap; overflow:hidden; flex-shrink:1; min-width:0;
+  mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+  padding-right: 4px;
+}
+.habit-tag{
+  font-size:0.58rem; font-weight:700; text-transform:uppercase; padding:2px 6px; border-radius:5px; color:#fff; flex-shrink:0;
+}
+.habit-tag.sub{ background: var(--sub-habit-color); }
+.habit-tag.challenge{ background: var(--challenge-habit-color); }
+
+.day-strip{ position:relative; flex-shrink:0; height: 58px; } /* hoogte = grootste checkbox (3 dagen/vandaag) */
+.day-strip-week{ position:relative; flex-shrink:0; height: 34px; }
+.day-cell{
+  position:absolute; top:50%; transform: translateY(-50%); display:flex; align-items:center; justify-content:center;
+  overflow:visible;
+}
+.day-cell.week-cell{ height:34px; }
+.day-cell.drag-anim{ transition: left .2s ease, width .2s ease, height .2s ease, opacity .15s ease; }
+
+/* checkbox (gedeeld door alle weergaven) */
+.check{
+  appearance:none; -webkit-appearance:none; border-radius:8px; border:2px solid var(--line);
+  background: var(--bg); cursor:pointer; position:relative; flex-shrink:0; width:100%; height:100%;
+}
+.check:checked{ border-color: var(--accent); background: var(--accent); }
+.check:checked::after{
+  content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:0.85em; font-weight:700;
+}
+.check:disabled{ opacity:0.3; cursor:not-allowed; }
+.check-off{ color: var(--line); font-size:1rem; }
+
+/* ================= detail/statistiek overlay ================= */
+.month-nav{ display:flex; align-items:center; justify-content:center; gap:16px; margin: 6px 0 12px; }
+#month-label{ font-weight:600; }
+.month-calendar{ display:grid; grid-template-columns: repeat(7,1fr); gap:6px; margin-bottom: 24px; }
+.month-day{
+  aspect-ratio:1; border-radius: var(--radius-s); display:flex; align-items:center; justify-content:center;
+  font-size:0.78rem; color: var(--ink-soft); background: var(--bg-raised);
+}
+.month-day.scheduled{ background: var(--accent-tint); color: var(--ink); }
+.month-day.done{ background: var(--accent); color:#fff; font-weight:700; }
+.month-day.empty{ background: transparent; }
+.month-day.future{ opacity:0.4; }
+
+.stats-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card{ background: var(--bg-raised); border-radius: var(--radius-m); padding: 16px; box-shadow: var(--shadow); }
+.stat-card .stat-value{ font-family: var(--font-title); font-size:1.6rem; color: var(--accent); }
+.stat-card .stat-label{ font-size:0.75rem; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em; }
+
+.subhabit-block{ background: var(--bg-raised); border:1px solid var(--sub-habit-color); border-radius: var(--radius-s); padding:12px; margin-bottom:10px; }
+.subhabit-block-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.subhabit-block-header .mini-label{ font-size:0.7rem; font-weight:700; color: var(--sub-habit-color); text-transform:uppercase; }
+.subhabit-remove{ color: var(--status-fail); font-size:0.85rem; }
+.subhabit-block input[type=text]{ width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--bg); color: var(--ink); margin-bottom:8px; }

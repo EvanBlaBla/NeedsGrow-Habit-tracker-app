@@ -30,7 +30,7 @@ en dan deze map als `webDir` instellen).
 
 ## Assets die je zelf moet aanvullen
 Ik heb geen toegang tot de echte logo-/icoonbestanden uit `/icons/` — kopieer
-zelf de volgende bestanden naar `assets/logos/` in dit project:
+zelf de volgende bestanden naar `assets/icons/grow/` in dit project:
 - `grow-logo-black.png`, `grow-logo-white.png` (topbar-logo, wisselt met dark mode)
 - `needs-icon-simple.png` (Needs-icoon in het midden van de navbar)
 

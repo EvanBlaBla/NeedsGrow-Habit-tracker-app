@@ -1,0 +1,58 @@
+.challenge-list-full{ display:flex; flex-direction:column; gap:14px; }
+
+.challenge-block{ background: var(--bg-raised); border-radius: var(--radius-m); box-shadow: var(--shadow); padding:16px; position:relative; transition: box-shadow 0.2s ease; }
+.challenge-block.status-done{ box-shadow: 0 0 0 2px var(--status-success), var(--shadow); }
+.challenge-block.status-failed{ box-shadow: 0 0 0 2px var(--status-fail), var(--shadow); }
+.challenge-block.status-failed .challenge-name{ text-decoration: line-through; opacity:0.75; }
+
+.challenge-full{ display:flex; gap:16px; }
+.challenge-main{ flex:1; min-width:0; }
+.challenge-name{ font-weight:700; font-size:1.05rem; cursor:pointer; }
+.challenge-goal{ color: var(--ink-soft); font-size:0.88rem; margin-top:2px; }
+
+.challenge-status-badge{ display:inline-block; font-size:0.62rem; font-weight:700; text-transform:uppercase; padding:2px 7px; border-radius:5px; margin-left:8px; letter-spacing:0.03em; vertical-align:middle; }
+.challenge-status-badge.done{ background: var(--status-success); color:#fff; }
+.challenge-status-badge.failed{ background: var(--status-fail); color:#fff; }
+
+.challenge-habit-row{ display:flex; align-items:center; gap:10px; margin-top:12px; background: color-mix(in srgb, var(--challenge-habit-color) 16%, transparent); border-radius: var(--radius-s); padding:9px 11px; }
+.challenge-habit-row .check{ width:26px; height:26px; flex-shrink:0; }
+.challenge-habit-row .lbl{ font-size:0.85rem; font-weight:600; }
+
+.challenge-checkpoint{ margin-top:12px; font-size:0.82rem; padding:9px 11px; border-radius: var(--radius-s); background: var(--bg); }
+.challenge-checkpoint .cp-label{ color: var(--ink-soft); }
+.challenge-checkpoint.pending{ color: var(--ink-soft); }
+.challenge-checkpoint.green{ color: var(--status-success); font-weight:700; }
+.challenge-checkpoint.red{ color: var(--status-fail); font-weight:700; }
+.challenge-checkpoint input[type=number]{ width:90px; padding:6px 8px; border-radius:6px; border:1px solid var(--line); background: var(--bg-raised); color: var(--ink); margin-left:6px; font-size:0.85rem; }
+.challenge-checkpoint button{ margin-left:6px; font-size:0.78rem; font-weight:700; color: var(--accent); }
+
+.challenge-complete-row{ display:flex; align-items:center; gap:8px; margin-top:12px; font-size:0.85rem; color: var(--ink-soft); }
+.challenge-complete-row .check{ width:26px; height:26px; flex-shrink:0; }
+.challenge-complete-row.locked{ opacity:0.6; }
+
+.challenge-timeline{ width:48px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; }
+.challenge-timeline .tl-date{ font-size:0.6rem; color: var(--ink-soft); text-align:center; line-height:1.3; }
+.challenge-timeline .tl-track{ flex:1; width:8px; background: var(--line); border-radius:999px; margin:6px 0; position:relative; overflow:hidden; min-height:70px; }
+.challenge-timeline .tl-fill{ position:absolute; bottom:0; left:0; right:0; background: var(--accent); border-radius:999px; }
+.challenge-timeline .tl-checkpoint-mark{ position:absolute; left:-4px; right:-4px; height:2px; background: var(--ink); opacity:0.4; }
+.challenge-timeline.done .tl-fill{ background: var(--status-success); }
+.challenge-timeline.failed .tl-fill{ background: var(--status-fail); }
+
+.challenge-menu-anchor{ position:relative; display:inline-block; }
+
+/* ---- Compact weergave ---- */
+.challenge-grid-compact{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.challenge-block-compact{ background: var(--bg-raised); border-radius: var(--radius-m); box-shadow: var(--shadow); padding:14px; transition: box-shadow 0.2s ease; }
+.challenge-block-compact.status-done{ box-shadow: 0 0 0 2px var(--status-success), var(--shadow); }
+.challenge-block-compact.status-failed{ box-shadow: 0 0 0 2px var(--status-fail), var(--shadow); }
+.challenge-compact-name{ font-weight:700; font-size:0.9rem; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.challenge-compact-goal{ color: var(--ink-soft); font-size:0.76rem; margin:2px 0 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.challenge-compact-progress{ display:flex; align-items:center; gap:8px; }
+.challenge-compact-bar{ flex:1; height:8px; border-radius:999px; background: var(--line); overflow:hidden; }
+.challenge-compact-bar .fill{ height:100%; background: var(--accent); }
+.challenge-block-compact.status-done .challenge-compact-bar .fill{ background: var(--status-success); }
+.challenge-block-compact.status-failed .challenge-compact-bar .fill{ background: var(--status-fail); }
+.challenge-compact-end{ display:flex; align-items:center; gap:6px; font-size:0.68rem; color: var(--ink-soft); white-space:nowrap; }
+.challenge-compact-end .check{ width:20px; height:20px; flex-shrink:0; }
+
+.empty-state.challenges-empty{ padding: 50px 20px; }
