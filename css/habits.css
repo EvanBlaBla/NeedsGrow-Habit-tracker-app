@@ -1,0 +1,88 @@
+.week-nav{ display:flex; align-items:center; justify-content:center; gap:14px; padding: 4px 0 10px; }
+.week-nav-label{ font-size:0.85rem; font-weight:600; color: var(--ink-soft); }
+
+/* ================= gedeelde lijst/rij-opbouw (alle 3 weergaven) ================= */
+.day-scroll-area{ position:relative; background: var(--bg-raised); border-radius: var(--radius-m); box-shadow: var(--shadow); overflow:hidden; }
+
+.day-header-row{ display:flex; align-items:center; padding: 10px 12px 8px 6px; }
+.day-header-row .name-col-spacer{ flex:1; min-width:0; }
+.day-strip-header{ display:flex; align-items:center; gap:4px; flex-shrink:0; }
+.day-abbr-cell{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-size:0.62rem; font-weight:700; color: var(--ink-soft); text-transform:uppercase; line-height:1.3;
+  border-radius:7px; padding:2px 0;
+}
+.day-abbr-cell .num{ font-size:0.58rem; font-weight:600; opacity:0.75; }
+.day-abbr-cell.is-today{ background: var(--accent); color:#fff; }
+.day-abbr-cell.is-today .num{ opacity:0.9; }
+
+.day-shift-btn{ width:26px; height:26px; flex-shrink:0; color: var(--ink-soft); }
+.day-shift-btn:active{ background: rgba(0,0,0,0.06); border-radius:50%; }
+
+.habit-list{ position:relative; }
+.habit-row-grid{
+  display:flex; align-items:center; padding: 13px 12px 13px 6px; border-bottom:1px solid var(--line); position:relative;
+}
+.habit-row-grid:last-child{ border-bottom:none; }
+.habit-row-grid.is-sub{ background: color-mix(in srgb, var(--sub-habit-color) 12%, transparent); }
+.habit-row-grid.is-challenge{ background: color-mix(in srgb, var(--challenge-habit-color) 12%, transparent); }
+
+.habit-expand{ width:14px; flex-shrink:0; color: var(--ink-soft); font-size:0.66rem; margin-right:2px; }
+.habit-name-col{ flex:1; min-width:0; margin-right:8px; overflow:hidden; cursor:pointer; }
+.habit-name-col .habit-name-wrap{ display:flex; align-items:center; gap:6px; overflow:hidden; }
+.habit-name-col .habit-name{
+  font-weight:600; font-size:0.94rem; white-space:nowrap; overflow:hidden; display:block; min-width:0;
+}
+/* fade-masker alleen actief als de titel ook écht wordt afgesneden (zie applyTitleTruncation in habits.js) */
+.habit-name-col .habit-name.name-truncated{
+  mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+}
+.habit-tag{
+  font-size:0.58rem; font-weight:700; text-transform:uppercase; padding:2px 6px; border-radius:5px; color:#fff; flex-shrink:0;
+}
+.habit-tag.sub{ background: var(--sub-habit-color); }
+.habit-tag.challenge{ background: var(--challenge-habit-color); }
+
+.day-strip{ display:flex; align-items:center; gap:4px; flex-shrink:0; }
+.day-cell{ display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* checkbox (gedeeld door alle weergaven) */
+.check{
+  appearance:none; -webkit-appearance:none; border-radius:7px; border:2px solid var(--line);
+  background: var(--bg); cursor:pointer; position:relative; flex-shrink:0; width:100%; height:100%;
+}
+.check:checked{ border-color: var(--accent); background: var(--accent); }
+.check:checked::after{
+  content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:0.8em; font-weight:700;
+}
+.check:disabled{ opacity:0.3; cursor:not-allowed; }
+.check-off{ color: var(--line); font-size:0.9rem; }
+
+/* kleinste vakjes bij 3 dagen/vandaag: niet aanvinkbaar, iets vager (tenzij ook al toekomstig-disabled) */
+.day-cell.small-slot .check:not(:disabled){ opacity:0.55; pointer-events:none; cursor:default; }
+
+/* ================= detail/statistiek overlay ================= */
+.month-nav{ display:flex; align-items:center; justify-content:center; gap:16px; margin: 6px 0 12px; }
+#month-label{ font-weight:600; }
+.month-calendar{ display:grid; grid-template-columns: repeat(7,1fr); gap:6px; margin-bottom: 24px; }
+.month-day{
+  aspect-ratio:1; border-radius: var(--radius-s); display:flex; align-items:center; justify-content:center;
+  font-size:0.78rem; color: var(--ink-soft); background: var(--bg-raised);
+}
+.month-day.scheduled{ background: var(--accent-tint); color: var(--ink); }
+.month-day.done{ background: var(--accent); color:#fff; font-weight:700; }
+.month-day.empty{ background: transparent; }
+.month-day.future{ opacity:0.4; }
+
+.stats-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card{ background: var(--bg-raised); border-radius: var(--radius-m); padding: 16px; box-shadow: var(--shadow); }
+.stat-card .stat-value{ font-family: var(--font-title); font-size:1.6rem; color: var(--accent); }
+.stat-card .stat-label{ font-size:0.75rem; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em; }
+
+.subhabit-block{ background: var(--bg-raised); border:1px solid var(--sub-habit-color); border-radius: var(--radius-s); padding:12px; margin-bottom:10px; }
+.subhabit-block-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.subhabit-block-header .mini-label{ font-size:0.7rem; font-weight:700; color: var(--sub-habit-color); text-transform:uppercase; }
+.subhabit-remove{ color: var(--status-fail); font-size:0.85rem; }
+.subhabit-block input[type=text]{ width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--bg); color: var(--ink); margin-bottom:8px; }
