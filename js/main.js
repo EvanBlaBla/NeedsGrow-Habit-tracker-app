@@ -25,3 +25,9 @@
   }
   init();
 })();
+  // ---------- offline support (PWA) ----------
+   if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(e => console.error('Service worker registratie mislukt', e));
+    });
+   }
