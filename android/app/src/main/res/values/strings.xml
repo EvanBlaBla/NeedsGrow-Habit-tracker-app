@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">NeedsGrow</string>
-    <string name="title_activity_main">NeedsGrow</string>
-    <string name="package_name">com.needs.grow</string>
-    <string name="custom_url_scheme">com.needs.grow</string>
-</resources>
